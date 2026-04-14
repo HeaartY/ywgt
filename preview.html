@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能质检</title>
+  <style>
+    /* CSS 样式 - 遵循 ZartUI 设计规范 */
+    :root {
+      --color-bg-page: #F5F7FA;
+      --color-bg-panel: #FFFFFF;
+      --color-bg-hover: #F1F6FA;
+      --color-text-primary: #081126;
+      --color-text-body: #223355;
+      --color-text-secondary: #6B7A99;
+      --color-text-disabled: #C3CAD9;
+      --color-text-inverse: #FFFFFF;
+      --color-primary: #3388FF;
+      --color-primary-hover: #5CA5FF;
+      --color-primary-soft: #D6EDFF;
+      --color-success: #11C79B;
+      --color-warning: #FFAA00;
+      --color-danger: #FF4433;
+      --color-link: #3388FF;
+      --color-border: #E9ECF2;
+      --shadow-xs: 0 2px 8px 0 rgba(18, 74, 180, 0.16);
+      --shadow-s:  0 4px 16px 0 rgba(18, 74, 180, 0.16);
+      --shadow-m:  0 8px 24px 0 rgba(18, 74, 180, 0.16);
+      --shadow-l:  0 16px 32px 0 rgba(18, 74, 180, 0.16);
+      --font-family-base: 'Source Han Sans SC', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --font-size-h4: 16px;
+      --font-size-body: 14px;
+      --font-size-secondary: 12px;
+      --radius-s: 4px;
+      --radius-m: 8px;
+      --radius-l: 16px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-lg: 16px;
+      --space-xl: 24px;
+      --space-xxl: 32px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-body);
+      line-height: 22px;
+      color: var(--color-text-body);
+      background: var(--color-bg-page);
+    }
+
+    .app-container { display: flex; flex-direction: column; height: 100vh; }
+
+    /* 顶部导航 */
+    .topbar {
+      height: 56px;
+      background: var(--color-bg-panel);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-lg);
+      box-shadow: var(--shadow-xs);
+      position: relative;
+      z-index: 100;
+    }
+
+    .topbar-logo {
+      font-size: var(--font-size-h4);
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-right: var(--space-xxl);
+    }
+
+    .topbar-menu {
+      display: flex;
+      gap: var(--space-lg);
+      flex: 1;
+    }
+
+    .topbar-menu-item {
+      padding: var(--space-sm) var(--space-md);
+      color: var(--color-text-body);
+      cursor: pointer;
+      border-radius: var(--radius-s);
+      transition: all 0.2s;
+    }
+
+    .topbar-menu-item:hover {
+      background: var(--color-bg-hover);
+      color: var(--color-primary);
+    }
+
+    .topbar-menu-item.active {
+      color: var(--color-primary);
+      background: var(--color-primary-soft);
+    }
+
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+    }
+
+    /* 主体区域 */
+    .main-container { display: flex; flex: 1; overflow: hidden; }
+
+    /* 侧边导航 */
+    .sidebar {
+      width: 200px;
+      background: linear-gradient(180deg, #242e4b 0%, #344468 100%);
+      color: var(--color-text-inverse);
+      padding: var(--space-lg) 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-group { margin-bottom: var(--space-lg); }
+
+    .sidebar-group-title {
+      padding: var(--space-sm) var(--space-lg);
+      font-size: var(--font-size-secondary);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .sidebar-menu-item {
+      padding: var(--space-sm) var(--space-lg);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .sidebar-menu-item:hover { background: rgba(255, 255, 255, 0.1); }
+
+    .sidebar-menu-item.active {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+    }
+
+    /* 内容区 */
+    .content-area { flex: 1; padding: var(--space-lg); overflow-y: auto; }
+
+    .page-header { margin-bottom: var(--space-lg); }
+
+    .page-title {
+      font-size: var(--font-size-h4);
+      font-weight: 500;
+      color: var(--color-text-primary);
+      line-height: 24px;
+    }
+
+    /* 查询筛选区 */
+    .filter-panel {
+      background: var(--color-bg-panel);
+      padding: var(--space-lg);
+      border-radius: var(--radius-m);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .filter-row:last-child { margin-bottom: 0; }
+
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .filter-label {
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+
+    .filter-input {
+      height: 32px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-body);
+      color: var(--color-text-body);
+      background: var(--color-bg-panel);
+      min-width: 200px;
+      transition: all 0.2s;
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(51, 136, 255, 0.1);
+    }
+
+    .filter-select {
+      height: 32px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-body);
+      color: var(--color-text-body);
+      background: var(--color-bg-panel);
+      min-width: 200px;
+      cursor: pointer;
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: var(--space-sm);
+      margin-left: auto;
+    }
+
+    /* 按钮样式 */
+    .btn {
+      height: 32px;
+      padding: 0 var(--space-md);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-body);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    .btn-default {
+      background: var(--color-bg-panel);
+      color: var(--color-text-body);
+    }
+
+    .btn-default:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .btn-text {
+      background: transparent;
+      border: none;
+      color: var(--color-primary);
+      padding: 0 var(--space-sm);
+      height: auto;
+    }
+
+    .btn-text:hover { color: var(--color-primary-hover); }
+
+    .btn-pill { border-radius: 16px; padding: 0 var(--space-lg); }
+
+    /* 操作按钮区 */
+    .toolbar {
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    /* 表格 */
+    .table-container {
+      background: var(--color-bg-panel);
+      border-radius: var(--radius-m);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+    }
+
+    .table-wrapper { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead { background: var(--color-bg-hover); }
+
+    th {
+      padding: var(--space-md) var(--space-lg);
+      text-align: left;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-secondary);
+      white-space: nowrap;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    td {
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text-body);
+    }
+
+    tbody tr:hover { background: var(--color-bg-hover); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .text-ellipsis {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* 状态标签 */
+    .status-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-secondary);
+      font-weight: 500;
+    }
+
+    .status-running {
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+    }
+
+    .status-failed {
+      background: rgba(255, 68, 51, 0.1);
+      color: var(--color-danger);
+    }
+
+    .status-completed {
+      background: rgba(17, 199, 155, 0.1);
+      color: var(--color-success);
+    }
+
+    /* 操作按钮组 */
+    .action-btns { display: flex; gap: var(--space-sm); }
+
+    /* 分页 */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: var(--space-lg);
+      gap: var(--space-sm);
+    }
+
+    .pagination-info {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-secondary);
+      margin-right: var(--space-md);
+    }
+
+    .pagination-btn {
+      min-width: 32px;
+      height: 32px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      background: var(--color-bg-panel);
+      color: var(--color-text-body);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .pagination-btn.active {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-color: var(--color-primary);
+    }
+
+    .pagination-btn.disabled {
+      color: var(--color-text-disabled);
+      cursor: not-allowed;
+    }
+
+    /* 弹窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: var(--color-bg-panel);
+      border-radius: var(--radius-l);
+      box-shadow: var(--shadow-l);
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: var(--space-lg) var(--space-xl);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: var(--font-size-h4);
+      font-weight: 500;
+      color: var(--color-text-primary);
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-s);
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--color-bg-hover);
+      color: var(--color-text-primary);
+    }
+
+    .modal-body {
+      padding: var(--space-xl);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: var(--space-lg) var(--space-xl);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-sm);
+    }
+
+    /* 表单 */
+    .form-section { margin-bottom: var(--space-xl); }
+    .form-section:last-child { margin-bottom: 0; }
+
+    .form-section-title {
+      font-size: var(--font-size-body);
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .form-row {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .form-row:last-child { margin-bottom: 0; }
+
+    .form-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .form-item-label {
+      font-size: var(--font-size-body);
+      color: var(--color-text-body);
+    }
+
+    .form-item-label.required::before {
+      content: '*';
+      color: var(--color-danger);
+      margin-right: var(--space-xs);
+    }
+
+    .form-input {
+      height: 32px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-body);
+      color: var(--color-text-body);
+      background: var(--color-bg-panel);
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(51, 136, 255, 0.1);
+    }
+
+    .form-select {
+      height: 32px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-body);
+      color: var(--color-text-body);
+      background: var(--color-bg-panel);
+      cursor: pointer;
+    }
+
+    /* 工具栏 */
+    .table-toolbar {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    /* 标签 */
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-secondary);
+      margin-right: var(--space-xs);
+      margin-bottom: var(--space-xs);
+    }
+
+    /* 统计卡片 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .stat-card {
+      background: var(--color-bg-panel);
+      padding: var(--space-lg);
+      border-radius: var(--radius-m);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .stat-label {
+      font-size: var(--font-size-secondary);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .stat-unit {
+      font-size: var(--font-size-body);
+      color: var(--color-text-secondary);
+      margin-left: var(--space-xs);
+    }
+
+    /* 复选框 */
+    .checkbox { width: 16px; height: 16px; cursor: pointer; }
+
+    /* TAB 切换 */
+    .tab-container {
+      display: flex;
+      gap: var(--space-xs);
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tab-item {
+      padding: var(--space-sm) var(--space-lg);
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      font-size: var(--font-size-body);
+    }
+
+    .tab-item:hover {
+      color: var(--color-primary);
+    }
+
+    .tab-item.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    @media (max-width: 1200px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- 顶部导航 -->
+    <div class="topbar">
+      <div class="topbar-logo">麒舰平台</div>
+      <div class="topbar-menu">
+        <div class="topbar-menu-item active">智能质检</div>
+      </div>
+      <div class="topbar-user"><span>管理员</span></div>
+    </div>
+
+    <!-- 主体区域 -->
+    <div class="main-container">
+      <!-- 侧边导航 -->
+      <div class="sidebar">
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">质检管理</div>
+          <div class="sidebar-menu-item active">智能质检</div>
+        </div>
+      </div>
+
+      <!-- 内容区 -->
+      <div class="content-area">
+        <div class="page-header">
+          <h1 class="page-title">智能质检</h1>
+        </div>
+
+        <!-- 查询筛选区 -->
+        <div class="filter-panel">
+          <div class="filter-row">
+            <div class="filter-item">
+              <span class="filter-label">创建时间:</span>
+              <input type="date" class="filter-input" id="filterStartDate">
+              <span class="filter-label">至</span>
+              <input type="date" class="filter-input" id="filterEndDate">
+            </div>
+            <div class="filter-item">
+              <span class="filter-label">创建人:</span>
+              <input type="text" class="filter-input" id="filterCreator" placeholder="请输入创建人">
+            </div>
+            <div class="filter-item">
+              <span class="filter-label">任务状态:</span>
+              <select class="filter-select" id="filterStatus">
+                <option value="">全部</option>
+                <option value="执行中">执行中</option>
+                <option value="执行失败">执行失败</option>
+                <option value="执行完成">执行完成</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button class="btn btn-primary" onclick="handleQuery()">查询</button>
+              <button class="btn btn-default" onclick="handleReset()">重置</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 操作按钮区 -->
+        <div class="toolbar">
+          <button class="btn btn-primary btn-pill" onclick="openCreateModal()">新建任务</button>
+        </div>
+
+        <!-- 任务列表表格 -->
+        <div class="table-container">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>任务名称</th>
+                  <th>描述</th>
+                  <th>创建时间</th>
+                  <th>创建人</th>
+                  <th>任务状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="taskTableBody"></tbody>
+            </table>
+          </div>
+
+          <!-- 分页 -->
+          <div class="pagination">
+            <span class="pagination-info">共 <span id="totalCount">3</span> 条</span>
+            <button class="pagination-btn disabled">上一页</button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">下一页</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新建任务弹窗 -->
+  <div class="modal-overlay" id="createModal">
+    <div class="modal" style="width: 1200px; height: 80vh;">
+      <div class="modal-header">
+        <h3 class="modal-title">新建任务</h3>
+        <button class="modal-close" onclick="closeCreateModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-section">
+          <div class="form-section-title">基本信息</div>
+          <div class="form-row">
+            <div class="form-item">
+              <label class="form-item-label required">任务名称</label>
+              <input type="text" class="form-input" id="taskName" placeholder="请输入任务名称">
+            </div>
+            <div class="form-item">
+              <label class="form-item-label">描述</label>
+              <input type="text" class="form-input" id="taskDesc" placeholder="请输入任务描述">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">工单筛选条件</div>
+          <div class="form-row">
+            <div class="form-item">
+              <label class="form-item-label">上报时间范围</label>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="date" class="form-input" style="flex: 1;">
+                <span>至</span>
+                <input type="date" class="form-input" style="flex: 1;">
+              </div>
+            </div>
+            <div class="form-item">
+              <label class="form-item-label">工单编号</label>
+              <input type="text" class="form-input" placeholder="请输入工单编号">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-item">
+              <label class="form-item-label">工单描述</label>
+              <input type="text" class="form-input" placeholder="请输入工单描述">
+            </div>
+            <div class="form-item">
+              <label class="form-item-label">联系方式</label>
+              <input type="text" class="form-input" placeholder="请输入联系方式">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-item">
+              <label class="form-item-label">地址描述</label>
+              <input type="text" class="form-input" placeholder="请输入地址描述">
+            </div>
+            <div class="form-item">
+              <label class="form-item-label">处置部门</label>
+              <select class="form-select">
+                <option value="">请选择处置部门</option>
+                <option value="1">市政管理处</option>
+                <option value="2">环境卫生管理处</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">工单列表</div>
+          <div class="table-toolbar">
+            <button class="btn btn-default" onclick="handleBatchAssociate()">批量关联</button>
+            <button class="btn btn-primary" onclick="handleSelectAll()">全部关联</button>
+            <button class="btn btn-default" onclick="openAssociatedModal()">已关联工单</button>
+            <button class="btn btn-default" onclick="handleExport()">导出数据</button>
+          </div>
+          <div class="table-container">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 50px;"><input type="checkbox" class="checkbox"></th>
+                    <th>序号</th>
+                    <th>工单编号</th>
+                    <th>工单描述</th>
+                    <th>大类</th>
+                    <th>小类</th>
+                    <th>联系方式</th>
+                    <th>处置部门</th>
+                    <th>上报时间</th>
+                    <th>工单性质</th>
+                    <th>处置意见</th>
+                    <th>问题类型</th>
+                    <th>话题标签</th>
+                    <th>主体标签</th>
+                    <th>地理标签</th>
+                    <th>其他标签</th>
+                  </tr>
+                </thead>
+                <tbody id="orderTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="closeCreateModal()">取消</button>
+        <button class="btn btn-primary" onclick="handleSubmitTask()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 查看任务弹窗 -->
+  <div class="modal-overlay" id="viewTaskModal">
+    <div class="modal" style="width: 1200px; height: 80vh;">
+      <div class="modal-header">
+        <h3 class="modal-title">查看任务</h3>
+        <button class="modal-close" onclick="closeViewTaskModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-section">
+          <div class="form-section-title">基本信息</div>
+          <div class="form-row">
+            <div class="form-item">
+              <label class="form-item-label">任务名称</label>
+              <div style="padding: 6px 0;" id="viewTaskName"></div>
+            </div>
+            <div class="form-item">
+              <label class="form-item-label">描述</label>
+              <div style="padding: 6px 0;" id="viewTaskDesc"></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-item">
+              <label class="form-item-label">创建时间</label>
+              <div style="padding: 6px 0;" id="viewTaskCreateTime"></div>
+            </div>
+            <div class="form-item">
+              <label class="form-item-label">创建人</label>
+              <div style="padding: 6px 0;" id="viewTaskCreator"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">关联工单列表</div>
+          <div class="table-toolbar">
+            <button class="btn btn-default" onclick="alert('数据导出成功')">导出数据</button>
+          </div>
+          <div class="table-container">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>工单编号</th>
+                    <th>工单描述</th>
+                    <th>大类</th>
+                    <th>小类</th>
+                    <th>联系方式</th>
+                    <th>处置部门</th>
+                    <th>上报时间</th>
+                    <th>工单性质</th>
+                    <th>处置意见</th>
+                    <th>问题类型</th>
+                    <th>话题标签</th>
+                    <th>主体标签</th>
+                    <th>地理标签</th>
+                    <th>其他标签</th>
+                  </tr>
+                </thead>
+                <tbody id="viewOrderTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 查看结果弹窗 -->
+  <div class="modal-overlay" id="viewResultModal">
+    <div class="modal" style="width: 1200px; height: 80vh;">
+      <div class="modal-header">
+        <h3 class="modal-title">查看结果</h3>
+        <button class="modal-close" onclick="closeViewResultModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-section">
+          <div class="form-section-title">总体概览</div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">工单总数</div>
+              <div class="stat-value">156<span class="stat-unit">件</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">质检打标工单数</div>
+              <div class="stat-value">142<span class="stat-unit">件</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">达标率</div>
+              <div class="stat-value">91.03<span class="stat-unit">%</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">不合格标签频次 TOP5</div>
+              <div style="margin-top: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                  <span style="color: var(--color-danger); font-weight: 600; margin-right: 8px;">1.</span>
+                  <span style="color: var(--text-body); flex: 1;">安全隐患</span>
+                  <span style="color: var(--color-text-secondary); font-size: 12px;">8次</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                  <span style="color: var(--color-danger); font-weight: 600; margin-right: 8px;">2.</span>
+                  <span style="color: var(--text-body); flex: 1;">井盖</span>
+                  <span style="color: var(--color-text-secondary); font-size: 12px;">5次</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                  <span style="color: var(--color-danger); font-weight: 600; margin-right: 8px;">3.</span>
+                  <span style="color: var(--text-body); flex: 1;">路灯</span>
+                  <span style="color: var(--color-text-secondary); font-size: 12px;">3次</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                  <span style="color: var(--color-danger); font-weight: 600; margin-right: 8px;">4.</span>
+                  <span style="color: var(--text-body); flex: 1;">道路</span>
+                  <span style="color: var(--color-text-secondary); font-size: 12px;">2次</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span style="color: var(--color-danger); font-weight: 600; margin-right: 8px;">5.</span>
+                  <span style="color: var(--text-body); flex: 1;">朝阳区</span>
+                  <span style="color: var(--color-text-secondary); font-size: 12px;">1次</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">结果列表</div>
+          <!-- TAB 切换 -->
+          <div class="tab-container" style="margin-bottom: 16px;">
+            <div class="tab-item active" data-tab="all" onclick="switchResultTab('all')">全部</div>
+            <div class="tab-item" data-tab="qualified" onclick="switchResultTab('qualified')">合格</div>
+            <div class="tab-item" data-tab="unqualified" onclick="switchResultTab('unqualified')">不合格</div>
+          </div>
+          <div class="table-container">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>工单编号</th>
+                    <th>工单描述</th>
+                    <th>大类</th>
+                    <th>小类</th>
+                    <th>联系方式</th>
+                    <th>处置部门</th>
+                    <th>上报时间</th>
+                    <th>工单性质</th>
+                    <th>处置意见</th>
+                    <th>问题类型</th>
+                    <th>话题标签</th>
+                    <th>主体标签</th>
+                    <th>地理标签</th>
+                    <th>其他标签</th>
+                    <th>不合格标签</th>
+                  </tr>
+                </thead>
+                <tbody id="resultTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 已关联工单弹窗(二级弹窗) -->
+  <div class="modal-overlay" id="associatedModal">
+    <div class="modal" style="width: 1200px; height: 80vh;">
+      <div class="modal-header">
+        <h3 class="modal-title">已关联工单</h3>
+        <button class="modal-close" onclick="closeAssociatedModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- 查询条件 -->
+        <div class="filter-panel" style="margin-bottom: 16px;">
+          <div class="filter-row">
+            <div class="filter-item">
+              <span class="filter-label">工单编号:</span>
+              <input type="text" class="filter-input" id="associatedOrderNo" placeholder="请输入工单编号">
+            </div>
+            <div class="filter-item">
+              <span class="filter-label">工单描述:</span>
+              <input type="text" class="filter-input" id="associatedOrderDesc" placeholder="请输入工单描述">
+            </div>
+            <div class="filter-item">
+              <span class="filter-label">处置部门:</span>
+              <select class="filter-select" id="associatedDepartment">
+                <option value="">全部</option>
+                <option value="市政管理处">市政管理处</option>
+                <option value="环境卫生管理处">环境卫生管理处</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button class="btn btn-primary" onclick="handleAssociatedQuery()">查询</button>
+              <button class="btn btn-default" onclick="handleAssociatedReset()">重置</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 工具栏 -->
+        <div class="table-toolbar">
+          <button class="btn btn-default" onclick="handleExport()">导出数据</button>
+        </div>
+
+        <!-- 工单列表 -->
+        <div class="table-container">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px;"><input type="checkbox" class="checkbox"></th>
+                  <th>序号</th>
+                  <th>工单编号</th>
+                  <th>工单描述</th>
+                  <th>大类</th>
+                  <th>小类</th>
+                  <th>联系方式</th>
+                  <th>处置部门</th>
+                  <th>上报时间</th>
+                  <th>工单性质</th>
+                  <th>处置意见</th>
+                  <th>问题类型</th>
+                  <th>话题标签</th>
+                  <th>主体标签</th>
+                  <th>地理标签</th>
+                  <th>其他标签</th>
+                </tr>
+              </thead>
+              <tbody id="associatedTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mock 数据
+    const taskData = [
+      { id: '1', name: '2026年第一季度质检任务', description: '对第一季度所有工单进行标签质检', createTime: '2026-03-15 09:30', creator: '张三', status: '执行完成' },
+      { id: '2', name: '重点区域工单质检', description: '对市中心区域工单进行专项质检', createTime: '2026-04-10 14:20', creator: '李四', status: '执行中' },
+      { id: '3', name: '市政设施类工单质检', description: '对市政设施类工单标签进行质检', createTime: '2026-04-12 16:45', creator: '王五', status: '执行失败' }
+    ];
+
+    const orderData = [
+      {
+        id: 'GD20260401001',
+        description: '朝阳区建国路88号井盖缺失',
+        category: '市政设施',
+        subCategory: '井盖',
+        contact: '138****1234',
+        department: '市政管理处',
+        reportTime: '2026-04-01 08:30',
+        nature: '设施损坏',
+        opinion: '已派员现场核实,安排维修',
+        problemType: '设施缺失',
+        topicTags: ['市政设施', '安全隐患'],
+        subjectTags: ['井盖', '道路'],
+        geoTags: ['朝阳区', '建国路'],
+        otherTags: []
+      },
+      {
+        id: 'GD20260401002',
+        description: '海淀区中关村大街路灯故障',
+        category: '市政设施',
+        subCategory: '路灯',
+        contact: '139****5678',
+        department: '市政管理处',
+        reportTime: '2026-04-02 10:15',
+        nature: '设施故障',
+        opinion: '已安排维修人员处理',
+        problemType: '设施故障',
+        topicTags: ['市政设施'],
+        subjectTags: ['路灯'],
+        geoTags: ['海淀区', '中关村大街'],
+        otherTags: []
+      },
+      {
+        id: 'GD20260401003',
+        description: '西城区金融街垃圾桶破损',
+        category: '环境卫生',
+        subCategory: '垃圾桶',
+        contact: '137****9012',
+        department: '环境卫生管理处',
+        reportTime: '2026-04-03 14:20',
+        nature: '设施损坏',
+        opinion: '已更换新垃圾桶',
+        problemType: '设施损坏',
+        topicTags: ['环境卫生'],
+        subjectTags: ['垃圾桶'],
+        geoTags: ['西城区', '金融街'],
+        otherTags: []
+      }
+    ];
+
+    const resultData = [
+      {
+        id: 'GD20260401001',
+        description: '朝阳区建国路88号井盖缺失',
+        category: '市政设施',
+        subCategory: '井盖',
+        contact: '138****1234',
+        department: '市政管理处',
+        reportTime: '2026-04-01 08:30',
+        nature: '设施损坏',
+        opinion: '已派员现场核实,安排维修',
+        problemType: '设施缺失',
+        topicTags: ['市政设施', '安全隐患'],
+        subjectTags: ['井盖', '道路'],
+        geoTags: ['朝阳区', '建国路'],
+        otherTags: [],
+        unqualifiedTags: ['安全隐患', '井盖']
+      },
+      {
+        id: 'GD20260401002',
+        description: '海淀区中关村大街路灯故障',
+        category: '市政设施',
+        subCategory: '路灯',
+        contact: '139****5678',
+        department: '市政管理处',
+        reportTime: '2026-04-02 10:15',
+        nature: '设施故障',
+        opinion: '已安排维修人员处理',
+        problemType: '设施故障',
+        topicTags: ['市政设施'],
+        subjectTags: ['路灯'],
+        geoTags: ['海淀区', '中关村大街'],
+        otherTags: [],
+        unqualifiedTags: []
+      }
+    ];
+
+    // 渲染任务列表
+    function renderTaskTable(data) {
+      const tbody = document.getElementById('taskTableBody');
+      tbody.innerHTML = data.map(task => `
+        <tr>
+          <td>${task.name}</td>
+          <td class="text-ellipsis" title="${task.description}">${task.description}</td>
+          <td>${task.createTime}</td>
+          <td>${task.creator}</td>
+          <td><span class="status-tag ${getStatusClass(task.status)}">${task.status}</span></td>
+          <td><div class="action-btns">${getActionButtons(task.status, task.id)}</div></td>
+        </tr>
+      `).join('');
+    }
+
+    function getStatusClass(status) {
+      const statusMap = { '执行中': 'status-running', '执行失败': 'status-failed', '执行完成': 'status-completed' };
+      return statusMap[status] || '';
+    }
+
+    function getActionButtons(status, taskId) {
+      let buttons = '';
+      if (status === '执行中') {
+        buttons = `<button class="btn btn-text" onclick="handleCancel('${taskId}')">取消</button><button class="btn btn-text" onclick="openViewTaskModal('${taskId}')">查看任务</button>`;
+      } else if (status === '执行失败') {
+        buttons = `<button class="btn btn-text" onclick="handleRetry('${taskId}')">重新执行</button><button class="btn btn-text" onclick="openViewTaskModal('${taskId}')">查看任务</button>`;
+      } else if (status === '执行完成') {
+        buttons = `<button class="btn btn-text" onclick="openViewTaskModal('${taskId}')">查看任务</button><button class="btn btn-text" onclick="openViewResultModal('${taskId}')">查看结果</button>`;
+      }
+      return buttons;
+    }
+
+    // 渲染工单列表
+    function renderOrderTable(data) {
+      const tbody = document.getElementById('orderTableBody');
+      tbody.innerHTML = data.map((order, index) => `
+        <tr>
+          <td><input type="checkbox" class="checkbox"></td>
+          <td>${index + 1}</td>
+          <td>${order.id}</td>
+          <td class="text-ellipsis" title="${order.description}">${order.description}</td>
+          <td>${order.category}</td>
+          <td>${order.subCategory}</td>
+          <td>${order.contact}</td>
+          <td>${order.department}</td>
+          <td>${order.reportTime}</td>
+          <td>${order.nature}</td>
+          <td class="text-ellipsis" title="${order.opinion}">${order.opinion}</td>
+          <td>${order.problemType}</td>
+          <td>${order.topicTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.subjectTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.geoTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.otherTags.length > 0 ? order.otherTags.map(tag => `<span class="tag">${tag}</span>`).join('') : '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    // 渲染查看任务工单列表
+    function renderViewOrderTable(data) {
+      const tbody = document.getElementById('viewOrderTableBody');
+      tbody.innerHTML = data.map((order, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${order.id}</td>
+          <td class="text-ellipsis" title="${order.description}">${order.description}</td>
+          <td>${order.category}</td>
+          <td>${order.subCategory}</td>
+          <td>${order.contact}</td>
+          <td>${order.department}</td>
+          <td>${order.reportTime}</td>
+          <td>${order.nature}</td>
+          <td class="text-ellipsis" title="${order.opinion}">${order.opinion}</td>
+          <td>${order.problemType}</td>
+          <td>${order.topicTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.subjectTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.geoTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.otherTags.length > 0 ? order.otherTags.map(tag => `<span class="tag">${tag}</span>`).join('') : '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    // 渲染结果列表
+    function renderResultTable(data) {
+      const tbody = document.getElementById('resultTableBody');
+      tbody.innerHTML = data.map((order, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${order.id}</td>
+          <td class="text-ellipsis" title="${order.description}">${order.description}</td>
+          <td>${order.category}</td>
+          <td>${order.subCategory}</td>
+          <td>${order.contact}</td>
+          <td>${order.department}</td>
+          <td>${order.reportTime}</td>
+          <td>${order.nature}</td>
+          <td class="text-ellipsis" title="${order.opinion}">${order.opinion}</td>
+          <td>${order.problemType}</td>
+          <td>${order.topicTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.subjectTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.geoTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.otherTags.length > 0 ? order.otherTags.map(tag => `<span class="tag">${tag}</span>`).join('') : '-'}</td>
+          <td>${order.unqualifiedTags.length > 0 ? order.unqualifiedTags.map(tag => `<span class="tag" style="background: rgba(255, 68, 51, 0.1); color: #FF4433;">${tag}</span>`).join('') : '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    // 查询
+    function handleQuery() {
+      const creator = document.getElementById('filterCreator').value;
+      const status = document.getElementById('filterStatus').value;
+      let filteredData = taskData.filter(task => {
+        let match = true;
+        if (creator && !task.creator.includes(creator)) match = false;
+        if (status && task.status !== status) match = false;
+        return match;
+      });
+      renderTaskTable(filteredData);
+    }
+
+    // 重置
+    function handleReset() {
+      document.getElementById('filterStartDate').value = '';
+      document.getElementById('filterEndDate').value = '';
+      document.getElementById('filterCreator').value = '';
+      document.getElementById('filterStatus').value = '';
+      renderTaskTable(taskData);
+    }
+
+    // 打开新建任务弹窗
+    function openCreateModal() {
+      document.getElementById('createModal').classList.add('active');
+      renderOrderTable(orderData);
+    }
+
+    // 关闭新建任务弹窗
+    function closeCreateModal() {
+      document.getElementById('createModal').classList.remove('active');
+      document.getElementById('taskName').value = '';
+      document.getElementById('taskDesc').value = '';
+    }
+
+    // 打开查看任务弹窗
+    function openViewTaskModal(taskId) {
+      const task = taskData.find(t => t.id === taskId);
+      if (task) {
+        document.getElementById('viewTaskName').textContent = task.name;
+        document.getElementById('viewTaskDesc').textContent = task.description;
+        document.getElementById('viewTaskCreateTime').textContent = task.createTime;
+        document.getElementById('viewTaskCreator').textContent = task.creator;
+        renderViewOrderTable(orderData);
+        document.getElementById('viewTaskModal').classList.add('active');
+      }
+    }
+
+    // 关闭查看任务弹窗
+    function closeViewTaskModal() {
+      document.getElementById('viewTaskModal').classList.remove('active');
+    }
+
+    // 打开查看结果弹窗
+    function openViewResultModal(taskId) {
+      currentResultTab = 'all';
+      // 重置TAB样式
+      document.querySelectorAll('.tab-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === 'all') {
+          item.classList.add('active');
+        }
+      });
+      renderResultTable(resultData);
+      document.getElementById('viewResultModal').classList.add('active');
+    }
+
+    // 关闭查看结果弹窗
+    function closeViewResultModal() {
+      document.getElementById('viewResultModal').classList.remove('active');
+    }
+
+    // 提交任务
+    function handleSubmitTask() {
+      const taskName = document.getElementById('taskName').value;
+      if (!taskName) {
+        alert('请输入任务名称');
+        return;
+      }
+      if (confirm('确定要创建任务吗?')) {
+        alert('任务创建成功');
+        closeCreateModal();
+      }
+    }
+
+    // 取消任务
+    function handleCancel(taskId) {
+      if (confirm('确定要取消该任务吗?')) {
+        alert('任务已取消');
+      }
+    }
+
+    // 重新执行
+    function handleRetry(taskId) {
+      if (confirm('确定要重新执行该任务吗?')) {
+        alert('任务已重新执行');
+      }
+    }
+
+    // 批量关联
+    function handleBatchAssociate() {
+      const checkboxes = document.querySelectorAll('#orderTableBody .checkbox:checked');
+      if (checkboxes.length === 0) {
+        alert('请先选择要关联的工单');
+        return;
+      }
+      alert(`已关联 ${checkboxes.length} 个工单`);
+    }
+
+    // 全部关联
+    function handleSelectAll() {
+      const checkboxes = document.querySelectorAll('#orderTableBody .checkbox');
+      checkboxes.forEach(cb => cb.checked = true);
+      alert('已关联所有工单');
+    }
+
+    // 打开已关联工单弹窗
+    function openAssociatedModal() {
+      renderAssociatedTable(orderData);
+      document.getElementById('associatedModal').classList.add('active');
+    }
+
+    // 关闭已关联工单弹窗
+    function closeAssociatedModal() {
+      document.getElementById('associatedModal').classList.remove('active');
+    }
+
+    // 渲染已关联工单列表
+    function renderAssociatedTable(data) {
+      const tbody = document.getElementById('associatedTableBody');
+      tbody.innerHTML = data.map((order, index) => `
+        <tr>
+          <td><input type="checkbox" class="checkbox"></td>
+          <td>${index + 1}</td>
+          <td>${order.id}</td>
+          <td class="text-ellipsis" title="${order.description}">${order.description}</td>
+          <td>${order.category}</td>
+          <td>${order.subCategory}</td>
+          <td>${order.contact}</td>
+          <td>${order.department}</td>
+          <td>${order.reportTime}</td>
+          <td>${order.nature}</td>
+          <td class="text-ellipsis" title="${order.opinion}">${order.opinion}</td>
+          <td>${order.problemType}</td>
+          <td>${order.topicTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.subjectTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.geoTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</td>
+          <td>${order.otherTags.length > 0 ? order.otherTags.map(tag => `<span class="tag">${tag}</span>`).join('') : '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    // 已关联工单查询
+    function handleAssociatedQuery() {
+      const orderNo = document.getElementById('associatedOrderNo').value;
+      const orderDesc = document.getElementById('associatedOrderDesc').value;
+      const department = document.getElementById('associatedDepartment').value;
+
+      let filteredData = orderData.filter(order => {
+        let match = true;
+        if (orderNo && !order.id.includes(orderNo)) match = false;
+        if (orderDesc && !order.description.includes(orderDesc)) match = false;
+        if (department && order.department !== department) match = false;
+        return match;
+      });
+
+      renderAssociatedTable(filteredData);
+    }
+
+    // 已关联工单重置
+    function handleAssociatedReset() {
+      document.getElementById('associatedOrderNo').value = '';
+      document.getElementById('associatedOrderDesc').value = '';
+      document.getElementById('associatedDepartment').value = '';
+      renderAssociatedTable(orderData);
+    }
+
+    // 导出数据
+    function handleExport() {
+      alert('数据导出成功');
+    }
+
+    // TAB 切换
+    let currentResultTab = 'all';
+
+    function switchResultTab(tab) {
+      currentResultTab = tab;
+
+      // 更新 TAB 样式
+      document.querySelectorAll('.tab-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === tab) {
+          item.classList.add('active');
+        }
+      });
+
+      // 根据TAB筛选数据
+      let filteredData = [];
+      if (tab === 'all') {
+        filteredData = resultData;
+      } else if (tab === 'qualified') {
+        filteredData = resultData.filter(order => order.unqualifiedTags.length === 0);
+      } else if (tab === 'unqualified') {
+        filteredData = resultData.filter(order => order.unqualifiedTags.length > 0);
+      }
+
+      renderResultTable(filteredData);
+    }
+
+    // 点击遮罩关闭弹窗
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+        }
+      });
+    });
+
+    // ESC 关闭弹窗
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+          modal.classList.remove('active');
+        });
+      }
+    });
+
+    // 初始化
+    renderTaskTable(taskData);
+  </script>
+</body>
+</html>
