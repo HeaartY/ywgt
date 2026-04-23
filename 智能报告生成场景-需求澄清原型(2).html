@@ -1,0 +1,2548 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智能报告生成场景-需求澄清原型</title>
+  <style>
+    :root {
+      --content-max: 980px;
+      --right-rail-gap: 0px;
+      --line: #dfe8f4;
+      --line-strong: #d2dfef;
+      --text: #233552;
+      --text-soft: #6f84a3;
+      --text-light: #9eb0c7;
+      --primary: #428dff;
+      --primary-soft: #edf5ff;
+      --cyan: #52d6ef;
+      --green: #21bf88;
+      --shadow: 0 10px 28px rgba(31,45,67,.08);
+      --shadow-soft: 0 6px 18px rgba(31,45,67,.05);
+      --avatar-user: url(data:image/png;base64,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);
+      --avatar-scene: url(data:image/png;base64,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);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #fff;
+      color: var(--text);
+      font: 14px/1.8 "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body { background: #fff; }
+
+    .proto-root {
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .chat-area {
+      min-height: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .chat-scroll {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-scroll::-webkit-scrollbar { width: 8px; }
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: #d6dfeb;
+      border-radius: 999px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .row.user {
+      grid-template-columns: minmax(0, 1fr) 42px;
+      width: min(calc(var(--content-max) + 54px), calc(100% - 40px));
+      margin-left: auto;
+      margin-right: 20px;
+    }
+
+    .row.agent-inline {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      padding: 0 16px;
+    }
+
+    .row.scene-wrap {
+      grid-template-columns: 42px minmax(0, 1fr);
+      width: calc(100% - 94px);
+      margin-left: auto;
+      margin-right: 74px;
+    }
+
+    .row.scene-thinking {
+      grid-template-columns: 42px minmax(0, 1fr);
+      width: calc(100% - 94px);
+      margin-left: auto;
+      margin-right: 74px;
+    }
+
+    .row.scene-wrap .content-wrap {
+      width: 100%;
+      max-width: none;
+      margin-right: var(--right-rail-gap);
+    }
+
+    .row.scene-thinking .content-wrap {
+      width: auto;
+      max-width: none;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid #dfe7f4;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      flex: 0 0 42px;
+    }
+
+    .avatar.user { background: center / cover no-repeat var(--avatar-user); }
+    .avatar.scene { background: center / cover no-repeat var(--avatar-scene); }
+
+    .content-wrap {
+      min-width: 0;
+      max-width: var(--content-max);
+    }
+
+    .row.user .content-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: min(var(--content-max), calc(100% - 54px));
+      max-width: min(var(--content-max), calc(100% - 54px));
+      margin-left: auto;
+    }
+
+    .row.agent-inline .content-wrap {
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .bubble {
+      position: relative;
+      max-width: min(var(--content-max), 76%);
+      border: 1px solid #deebf8;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+      color: #314760;
+      padding: 14px 16px;
+      word-break: break-word;
+    }
+
+    .bubble.user {
+      max-width: min(var(--content-max), 76%);
+      background: linear-gradient(180deg, #d9ecff 0%, #cee5fd 100%);
+      border-color: #bfdcf9;
+      color: #2c456d;
+      box-shadow: 0 10px 24px rgba(74,143,240,.10);
+    }
+
+    .bubble.thinking-bubble {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: min(420px, 100%);
+      padding: 12px 16px;
+    }
+
+    .bubble-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #253a5b;
+      margin-bottom: 8px;
+    }
+
+    .bubble-sub {
+      font-size: 12px;
+      color: #8fa0b8;
+      margin-top: 2px;
+    }
+
+    .bubble-duration {
+      position: static;
+      font-size: 12px;
+      color: #98a9bf;
+      font-weight: 700;
+      margin-left: auto;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .typing-text { white-space: pre-wrap; }
+
+    .file-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f4f7fc;
+      border: 1px solid #e2e9f3;
+      color: #51627c;
+      box-shadow: var(--shadow-soft);
+      align-self: flex-end;
+      max-width: min(var(--content-max), 76%);
+      white-space: nowrap;
+      width: fit-content;
+    }
+
+    .file-chip-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #e7fff2;
+      color: #2fb36f;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex: 0 0 34px;
+    }
+
+    .file-chip-body {
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+
+    .file-chip-name {
+      flex: 0 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      color: #334764;
+      white-space: nowrap;
+    }
+
+    .file-chip-meta {
+      font-size: 12px;
+      color: #96a6bc;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .thinking-inline {
+      display: inline-flex;
+      align-items: center;
+      color: #314760;
+      font-weight: 400;
+      min-height: 0;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid #c9d9ec;
+      border-top-color: var(--primary);
+      animation: spin .75s linear infinite;
+      flex: 0 0 16px;
+    }
+
+    .scene-card {
+      border: 1px solid #dbe6f5;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fbfdff 0%, #f6f9ff 100%);
+      box-shadow: 0 8px 22px rgba(66,141,255,.05);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .scene-head {
+      position: relative;
+      padding: 14px 16px 12px;
+      background: #fff;
+      border-bottom: 1px solid #dfe8f4;
+    }
+
+    .scene-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #203450;
+      margin-bottom: 8px;
+      padding-right: 250px;
+    }
+
+    .scene-desc {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      color: var(--text-soft);
+      font-size: 13px;
+      padding-right: 250px;
+    }
+
+    .scene-desc-main {
+      min-width: 0;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .scene-link {
+      color: var(--primary);
+      font-weight: 700;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .scene-runtime-box {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      min-height: 34px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .status-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 20px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(244,248,255,.84);
+      border: 1px solid #dbe6f5;
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+      color: var(--text-soft);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity .24s ease, transform .24s ease;
+    }
+
+    .status-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .status-line.done {
+      color: #2a547f;
+      font-weight: 600;
+    }
+
+    .status-mark {
+      width: 16px;
+      flex: 0 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+    }
+
+    .scene-flow {
+      padding: 14px 16px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .scene-flow.hidden,
+    .scene-divider.hidden,
+    .agent-record-wrap.hidden {
+      display: none;
+    }
+
+    .flow-node {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid #dbe4f1;
+      background: #fff;
+      color: #7887a0;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .flow-node.current {
+      background: linear-gradient(180deg, #f3f8ff 0%, #edf5ff 100%);
+      border-color: #cae0ff;
+      color: var(--primary);
+      box-shadow: 0 8px 18px rgba(66,141,255,.08);
+    }
+
+    .flow-node.done {
+      background: #f5fffb;
+      border-color: #d7efe6;
+      color: var(--green);
+    }
+
+    .flow-arrow {
+      color: #9cadc4;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .scene-divider {
+      height: 1px;
+      background: #e5edf7;
+    }
+
+    .agent-record-wrap {
+      padding: 14px 16px 16px;
+    }
+
+    .agent-stream {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 10px;
+      min-height: 24px;
+    }
+
+    .timeline-row::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: -12px;
+      width: 2px;
+      background: linear-gradient(180deg, #d8e8fb 0%, #e7f0fb 100%);
+    }
+
+    .timeline-row:last-child::before {
+      bottom: 18px;
+    }
+
+    .timeline-indicator {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 7px;
+      z-index: 1;
+    }
+
+    .timeline-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 0 1px #eef5ff;
+    }
+
+    .timeline-dot.result {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px #edf9f2;
+    }
+
+    .timeline-spinner {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #c9d9ec;
+      border-top-color: var(--primary);
+      animation: spin .72s linear infinite;
+      background: #fff;
+      box-shadow: 0 0 0 1px #eef5ff;
+    }
+
+    .timeline-content {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .timeline-line {
+      min-height: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.8;
+      padding: 0;
+      font-size: 14px;
+      color: #314760;
+      width: 100%;
+    }
+
+    .inline-text {
+      flex: 1;
+      min-width: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.8;
+    }
+
+    .timeline-line.with-action {
+      justify-content: space-between;
+      gap: 12px;
+      white-space: normal;
+    }
+
+    .timeline-line .bubble-duration {
+      right: 0;
+      top: 2px;
+    }
+
+    .timeline-line.with-action .inline-text {
+      flex: 1;
+      min-width: 0;
+      line-height: 1.8;
+    }
+
+    .timeline-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 0;
+      vertical-align: middle;
+      flex: 0 0 auto;
+    }
+
+    .primary-btn,
+    .ghost-btn {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      background: linear-gradient(180deg, #4b96ff 0%, #3788fb 100%);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(66,141,255,.20);
+    }
+
+    .ghost-btn {
+      background: #fff;
+      color: var(--primary);
+      border-color: #d6e6fb;
+      cursor: default;
+    }
+
+    .result-card-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid #dfeaf8;
+      background: linear-gradient(180deg, #f7fbff 0%, #f2f7ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .result-card-body {
+      padding: 14px 16px;
+      display: grid;
+      gap: 10px;
+      font-size: 13px;
+      color: #4f607a;
+    }
+
+    .result-group {
+      border: 1px solid #e3ebf5;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fff;
+    }
+
+    .result-group-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #223a5c;
+      margin-bottom: 6px;
+    }
+
+    .result-group pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.75;
+      font-size: 13px;
+    }
+
+    .stage-finish {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .bubble.result-block {
+      width: 100%;
+      max-width: none;
+    }
+
+    .composer-wrap {
+      position: relative;
+      z-index: 10;
+      margin-bottom: 0;
+      background: transparent;
+      padding: 0 12px 4px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .composer-shell {
+      width: min(var(--content-max), calc(100% - 84px));
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    .bubble.result-block {
+      width: 100%;
+      max-width: none;
+    }
+
+    .attachment-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 460px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f4f7fc;
+      border: 1px solid #e2e9f3;
+      color: #51627c;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .attachment-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #e7fff2;
+      color: #2fb36f;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .attachment-text {
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .attachment-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      color: #334764;
+    }
+
+    .attachment-meta {
+      font-size: 12px;
+      color: #96a6bc;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .composer-input-box {
+      min-height: 96px;
+      border: 1px solid #dfe8f3;
+      border-radius: 16px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 10px 24px rgba(31,45,67,.08);
+      padding: 14px 16px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .composer-text {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #2c4262;
+      background: transparent;
+      font-family: inherit;
+    }
+
+    .composer-footer {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .mention-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid #c9dcff;
+      background: #f4f8ff;
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: var(--shadow-soft);
+      font-size: 14px;
+    }
+
+    .composer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 auto;
+      margin-left: auto;
+    }
+
+    .tiny-icon-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #dbe6f5;
+      border-radius: 10px;
+      background: #fff;
+      color: #58749b;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .send-btn {
+      min-width: 78px;
+      height: 34px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #4c97ff 0%, #3688fb 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(66,141,255,.24);
+      cursor: pointer;
+      padding: 0 16px;
+      flex: 0 0 auto;
+    }
+
+    .composer-disabled .composer-text,
+    .composer-disabled .tiny-icon-btn {
+      pointer-events: none;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      padding: 18px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(920px, 100%);
+      max-height: min(78vh, 760px);
+      background: #fff;
+      border: 1px solid #dfe7f2;
+      border-radius: 20px;
+      box-shadow: 0 26px 60px rgba(15, 27, 50, 0.22);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      overflow: hidden;
+    }
+
+    .modal-head {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e314f;
+    }
+
+    .modal-sub {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #88a0bc;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid #dde6f2;
+      background: #fff;
+      color: #71839d;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      min-height: 0;
+      overflow: auto;
+      padding: 18px 22px 10px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .q-card {
+      border: 1px solid #e4ecf6;
+      background: #fbfdff;
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .q-title {
+      font-size: 14px;
+      line-height: 1.7;
+      font-weight: 700;
+      color: #2b4161;
+      margin-bottom: 10px;
+    }
+
+    .q-input {
+      width: 100%;
+      min-height: 74px;
+      border: 1px solid #dbe6f4;
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      resize: none;
+      outline: none;
+      font: inherit;
+      color: #334964;
+      line-height: 1.7;
+    }
+
+    .modal-foot {
+      border-top: 1px solid var(--line);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: #fff;
+    }
+
+    .fade-enter {
+      animation: fadeInUp .35s ease forwards;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="proto-root">
+    <div class="chat-area">
+      <div class="chat-scroll" id="chat-scroll"></div>
+    </div>
+
+    <div class="composer-wrap" id="composer-wrap">
+      <div class="composer-shell">
+        <div class="attachment-chip" id="attachment-chip">
+          <span class="attachment-icon">X</span>
+          <span class="attachment-text">
+            <span class="attachment-name">2025年民生诉求工单.xlsx</span>
+            <span class="attachment-meta">xlsx ｜ 4.70MB</span>
+          </span>
+        </div>
+        <div class="composer-input-box">
+          <textarea class="composer-text" id="composer-input">分析工单，撰写报告</textarea>
+          <div class="composer-footer">
+            <span class="mention-chip" id="mention-chip">@ 智能报告生成场景</span>
+            <div class="composer-actions">
+              <button class="tiny-icon-btn" id="upload-btn" type="button" aria-label="上传附件">📎</button>
+              <button class="send-btn" id="send-btn" type="button" aria-label="发送">发送</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="answer-modal">
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <div class="modal-title">任务需求补充信息</div>
+            <div class="modal-sub">请补充需求澄清阶段的关键问题，提交后智能体将继续执行。</div>
+          </div>
+          <button class="modal-close" id="modal-close" type="button">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="q-card">
+            <div class="q-title">1. 请确认需要生成什么类型的报告？（如：日报/周报/月报/季报/专题报告）</div>
+            <textarea class="q-input" data-field="reportType">专题报告</textarea>
+          </div>
+          <div class="q-card">
+            <div class="q-title">2. 请确认报告的主题？（如：新就业群体专题分析、消费维权专题分析、等）</div>
+            <textarea class="q-input" data-field="topic">新就业群体专题分析</textarea>
+          </div>
+          <div class="q-card">
+            <div class="q-title">3. 请确认工单的范围？（如：2025年主单、事项类别为/消费者维权、市民评价为不满意等）</div>
+            <textarea class="q-input" data-field="scope">2025年全年热线工单，重点关注新就业群体相关诉求</textarea>
+          </div>
+          <div class="q-card">
+            <div class="q-title">4. 请确认是否需要打标和质检？（如：使用通用算法打标、使用提示词算法打新就业群体标签并提供标签等）</div>
+            <textarea class="q-input" data-field="labeling">需要，建议进行打标并同步开展标注质检</textarea>
+          </div>
+          <div class="q-card">
+            <div class="q-title">5. 请确认最终生成的报告是否需要图表？（如：需要图表，尤其是针对热点被诉主体分析的柱状图等）</div>
+            <textarea class="q-input" data-field="charts">需要图表，重点展示热点问题趋势和重点群体分布</textarea>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="ghost-btn" id="modal-cancel" type="button">取消</button>
+          <button class="primary-btn" id="modal-submit" type="button">提交回答</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const chatScroll = document.getElementById('chat-scroll');
+    const sendBtn = document.getElementById('send-btn');
+    const composerWrap = document.getElementById('composer-wrap');
+    const composerInput = document.getElementById('composer-input');
+    const attachmentChip = document.getElementById('attachment-chip');
+    const mentionChip = document.getElementById('mention-chip');
+    const answerModal = document.getElementById('answer-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalCancel = document.getElementById('modal-cancel');
+    const modalSubmit = document.getElementById('modal-submit');
+    const modalTitle = answerModal.querySelector('.modal-title');
+    const modalSub = answerModal.querySelector('.modal-sub');
+    const modalBody = answerModal.querySelector('.modal-body');
+
+    let hasStarted = false;
+    let waitingForAnswer = false;
+    let answerData = null;
+    let qualityAnswerData = null;
+    let answerButton = null;
+    let modalMode = 'demand';
+    let flowNodeEls = [];
+    const autoplay = new URLSearchParams(window.location.search).get('autoplay') === '1';
+    const qualitySuggestionText = '标注覆盖率81.3%，低于90%标准值：还有一部分相关工单尚未打上标签，主要问题是标签口径分得太细、长尾标签太多、别称覆盖不够。像收纳整理师、在线教师、产后康复师这类新就业群体相关表述，在工单原文中可能以“上门整理”“网课老师”“产康服务”等形式出现，建议补充同义词、场景词和平台词，并优先完善高频职业标签识别规则。\n\n准确率87.4%，低于90%标准值：一些标签虽然命中了，但边界不清，容易互相混淆，问题主要集中在主诉身份标签对象偏差、证据不足，以及话题标签细项和类别判断不一致。建议重点修复网约车司机、快递员、货车车主等高频错标样本，细化“主诉人身份”和“涉事对象”的判断规则；同时对驾驶员从业资格、劳动合同纠纷、网络预约出租车投诉处理等话题标签补充正反例，形成复核清单并闭环更新。';
+
+    const sceneStatuses = [
+      '加载场景配置：智能报告生成场景',
+      '加载成员智能体列表',
+      '启动编排引擎'
+    ];
+
+    const flowSteps = [
+      '01 需求澄清员',
+      '02 数据标注员',
+      '03 标注质检员',
+      '04 报告撰写员（章节梳理）',
+      '05 数据分析员',
+      '06 报告撰写员'
+    ];
+
+    const TYPE_SPEED = 18;
+    const THINK_AI = 4500;
+    const THINK_1 = 4000;
+    const THINK_2 = 14000;
+    const THINK_3 = 5000;
+    const THINK_4 = 6000;
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function formatDuration(ms) {
+      const sec = Math.max(1, Math.round(ms / 1000));
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}m${s}s`;
+    }
+
+    function scrollToBottom() {
+      return;
+    }
+
+    function makeAvatar(type) {
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar ' + type;
+      return avatar;
+    }
+
+    function createBubbleRow({ side='ai', bubbleClass='', title='', html='', extraNode=null, rowClass='' }) {
+      const row = document.createElement('div');
+      row.className = 'row ' + (side === 'user' ? 'user' : '') + (rowClass ? ' ' + rowClass : '');
+      const avatar = side === 'user' ? makeAvatar('user') : makeAvatar('scene');
+      const wrap = document.createElement('div');
+      wrap.className = 'content-wrap';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + bubbleClass;
+      if (title) {
+        const titleEl = document.createElement('div');
+        titleEl.className = 'bubble-title';
+        titleEl.textContent = title;
+        bubble.appendChild(titleEl);
+      }
+      const body = document.createElement('div');
+      body.className = 'typing-text';
+      body.innerHTML = html || '';
+      bubble.appendChild(body);
+      wrap.appendChild(bubble);
+      if (extraNode) wrap.appendChild(extraNode);
+
+      if (side === 'user') {
+        row.appendChild(wrap);
+        row.appendChild(avatar);
+      } else {
+        row.appendChild(avatar);
+        row.appendChild(wrap);
+      }
+
+      chatScroll.appendChild(row);
+      row.classList.add('fade-enter');
+      scrollToBottom();
+      return { row, body };
+    }
+
+    async function typeText(el, text, speed = TYPE_SPEED) {
+      el.textContent = '';
+      for (let i = 0; i < text.length; i++) {
+        el.textContent += text[i];
+        scrollToBottom();
+        await wait(speed);
+      }
+    }
+
+    async function createThinkingMessage(target, durationMs=0) {
+      const row = document.createElement('div');
+      row.className = 'row agent-inline';
+      const wrap = document.createElement('div');
+      wrap.className = 'content-wrap';
+      const item = document.createElement('div');
+      item.className = 'timeline-row';
+      item.innerHTML = `
+        <div class="timeline-indicator"><span class="timeline-spinner"></span></div>
+        <div class="timeline-content">
+          <div class="timeline-line">
+            <span class="thinking-inline"><span>大模型思考中</span></span>
+          </div>
+        </div>
+      `;
+      wrap.appendChild(item);
+      row.appendChild(wrap);
+      target.appendChild(row);
+      row.classList.add('fade-enter');
+      scrollToBottom();
+      return { item, durationMs };
+    }
+
+    function buildSceneContainer() {
+      const row = document.createElement('div');
+      row.className = 'row scene-wrap';
+      const avatar = makeAvatar('scene');
+      const wrap = document.createElement('div');
+      wrap.className = 'content-wrap';
+
+      const card = document.createElement('div');
+      card.className = 'scene-card';
+      card.innerHTML = `
+        <div class="scene-head">
+          <div class="scene-title">智能报告生成场景</div>
+          <div class="scene-desc">
+            <span class="scene-desc-main">面向12345政务热线、政务服务便民热线、民生诉求数据分析等场景的三层智能体框架。场景层统一编排6个智能体。本场景不是“把一份旧模板套数据”。</span>
+            <span class="scene-link">查看详情</span>
+          </div>
+          <div class="scene-runtime-box" id="runtime-box"></div>
+        </div>
+        <div class="scene-flow hidden" id="scene-flow-wrap">
+          <div class="flow-track" id="flow-track"></div>
+        </div>
+        <div class="scene-divider hidden" id="scene-divider"></div>
+        <div class="agent-record-wrap hidden" id="agent-record-wrap">
+          <div class="agent-stream" id="agent-stream"></div>
+        </div>
+      `;
+
+      wrap.appendChild(card);
+      row.appendChild(avatar);
+      row.appendChild(wrap);
+      chatScroll.appendChild(row);
+      row.classList.add('fade-enter');
+      scrollToBottom();
+      return {
+        runtimeBox: card.querySelector('#runtime-box'),
+        flowTrack: card.querySelector('#flow-track'),
+        flowWrap: card.querySelector('#scene-flow-wrap'),
+        divider: card.querySelector('#scene-divider'),
+        recordWrap: card.querySelector('#agent-record-wrap'),
+        agentStream: card.querySelector('#agent-stream')
+      };
+    }
+
+    function renderFlow(track, current = 0) {
+      flowNodeEls = [];
+      track.innerHTML = '';
+      flowSteps.forEach((step, index) => {
+        const chip = document.createElement('span');
+        chip.className = 'flow-node ' + (index < current ? 'done' : index === current ? 'current' : '');
+        chip.textContent = step;
+        flowNodeEls.push(chip);
+        track.appendChild(chip);
+        if (index < flowSteps.length - 1) {
+          const arrow = document.createElement('span');
+          arrow.className = 'flow-arrow';
+          arrow.textContent = '→';
+          track.appendChild(arrow);
+        }
+      });
+    }
+
+    async function runStatuses(host) {
+      host.innerHTML = '';
+      const line = document.createElement('div');
+      line.className = 'status-line';
+      host.appendChild(line);
+      for (let i = 0; i < sceneStatuses.length; i++) {
+        line.className = 'status-line';
+        line.innerHTML = `<span class="status-mark"><span class="spinner" style="width:12px;height:12px;border-width:2px;"></span></span><span>${sceneStatuses[i]}</span>`;
+        line.classList.add('show');
+        await wait(1500);
+        line.classList.remove('show');
+        await wait(120);
+        line.className = 'status-line done';
+        line.innerHTML = `<span class="status-mark">✓</span><span>${sceneStatuses[i]}</span>`;
+        line.classList.add('show');
+        if (i < sceneStatuses.length - 1) {
+          await wait(420);
+          line.classList.remove('show');
+          await wait(180);
+        } else {
+          await wait(3000);
+          host.innerHTML = '';
+        }
+      }
+    }
+
+    function hasModalAnswer(mode = modalMode) {
+      return mode === 'quality' ? !!qualityAnswerData : !!answerData;
+    }
+
+    function renderDemandModal() {
+      const data = answerData || {};
+      modalTitle.textContent = '任务需求补充信息';
+      modalSub.textContent = '请补充需求澄清阶段的关键问题，提交后智能体将继续执行。';
+      modalSubmit.textContent = '提交回答';
+      modalBody.innerHTML = `
+        <div class="q-card">
+          <div class="q-title">1. 请确认需要生成什么类型的报告？（如：日报/周报/月报/季报/专题报告）</div>
+          <textarea class="q-input" data-field="reportType">${data.reportType || '专题报告'}</textarea>
+        </div>
+        <div class="q-card">
+          <div class="q-title">2. 请确认报告的主题？（如：新就业群体专题分析、消费维权专题分析、等）</div>
+          <textarea class="q-input" data-field="topic">${data.topic || '新就业群体专题分析'}</textarea>
+        </div>
+        <div class="q-card">
+          <div class="q-title">3. 请确认工单的范围？（如：2025年主单、事项类别为/消费者维权、市民评价为不满意等）</div>
+          <textarea class="q-input" data-field="scope">${data.scope || '2025年全年热线工单，重点关注新就业群体相关诉求'}</textarea>
+        </div>
+        <div class="q-card">
+          <div class="q-title">4. 请确认是否需要打标和质检？（如：使用通用算法打标、使用提示词算法打新就业群体标签并提供标签等）</div>
+          <textarea class="q-input" data-field="labeling">${data.labeling || '需要，建议进行打标并同步开展标注质检'}</textarea>
+        </div>
+        <div class="q-card">
+          <div class="q-title">5. 请确认最终生成的报告是否需要图表？（如：需要图表，尤其是针对热点被诉主体分析的柱状图等）</div>
+          <textarea class="q-input" data-field="charts">${data.charts || '需要图表，重点展示热点问题趋势和重点群体分布'}</textarea>
+        </div>
+      `;
+    }
+
+    function renderQualityModal() {
+      const data = qualityAnswerData || {};
+      modalTitle.textContent = '任务需求补充信息';
+      modalSub.textContent = '请确认标注质检阶段的结果，提交后智能体将继续执行。';
+      modalSubmit.textContent = '提交回答';
+      modalBody.innerHTML = `
+        <div class="q-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div class="q-title" style="margin-bottom:0;">智能质检建议</div>
+            <button class="primary-btn" id="quality-use-suggestion" type="button">一键引用</button>
+          </div>
+          <pre style="margin:0;white-space:pre-wrap;word-break:break-word;font-family:inherit;line-height:1.75;color:#3c506d;">${qualitySuggestionText}</pre>
+        </div>
+        <div class="q-card">
+          <div class="q-title">1. 请确认智能质检是否通过？（回答是或否，若回答否，请输入提示词优化诉求，您可直接引用AI提供的建议）</div>
+          <textarea class="q-input" data-field="qualityConfirm">${data.qualityConfirm || '同意智能质检结论，请根据质检建议修正高频错标标签并进入下一阶段。'}</textarea>
+        </div>
+      `;
+      const useBtn = document.getElementById('quality-use-suggestion');
+      const input = modalBody.querySelector('[data-field="qualityConfirm"]');
+      if (useBtn && input) {
+        useBtn.addEventListener('click', () => {
+          input.value = qualitySuggestionText;
+        });
+      }
+    }
+
+    function openAnswerModal(mode = 'demand', requireAnswer = true) {
+      modalMode = mode;
+      if (mode === 'quality') {
+        renderQualityModal();
+      } else {
+        renderDemandModal();
+      }
+      waitingForAnswer = requireAnswer && !hasModalAnswer(mode);
+      answerModal.classList.add('show');
+    }
+
+    function buildAskAction(mode = 'demand') {
+      const wrap = document.createElement('span');
+      wrap.className = 'timeline-actions';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'primary-btn';
+      btn.textContent = '进行回答';
+      btn.addEventListener('click', () => {
+        openAnswerModal(mode, !hasModalAnswer(mode));
+      });
+      wrap.appendChild(btn);
+      answerButton = btn;
+      return wrap;
+    }
+
+    function collectAnswers() {
+      const data = {};
+      document.querySelectorAll('.q-input').forEach(el => {
+        data[el.dataset.field] = (el.value || '').trim();
+      });
+      return data;
+    }
+
+    function finalizeAnswers() {
+      const data = collectAnswers();
+      if (modalMode === 'quality') {
+        qualityAnswerData = data;
+      } else {
+        answerData = data;
+      }
+      waitingForAnswer = false;
+      answerModal.classList.remove('show');
+      if (answerButton) {
+        answerButton.textContent = '查看回答';
+        answerButton.className = 'ghost-btn';
+      }
+    }
+
+    function buildResultCard(data, durationMs) {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble result-block';
+      bubble.style.maxWidth = '100%';
+      bubble.innerHTML = `
+        <div class="result-card-head">
+          <div>
+            <div class="bubble-title">输出结果</div>
+            <div class="bubble-sub">需求澄清阶段标准结果块</div>
+          </div>
+          <div class="bubble-duration" style="position:static;">${formatDuration(durationMs)}</div>
+        </div>
+        <div class="result-card-body">
+          <div class="result-group">
+            <div class="result-group-title">【需求澄清】</div>
+            <pre>报告类型：${data.reportType}
+数据范围：2025年1月1日—2025年12月31日
+图表需求：${data.charts}
+重点关注：${data.topic}</pre>
+          </div>
+          <div class="result-group">
+            <div class="result-group-title">【字段扫描】</div>
+            <pre>文件：2025年民生诉求工单.xlsx
+总工单量：20875
+字段概览：
+[√] 工单编号、受理时间、诉求标题、诉求内容、所属区县、所属街道、渠道来源、承办单位、办理状态、办理时间、满意度评价
+[△] 平台企业字段（若无则从文本中补充识别）、是否超期字段（需计算）
+[×] 缺失：部分企业名称需由文本补充识别</pre>
+          </div>
+          <div class="result-group">
+            <div class="result-group-title">【数据评估】</div>
+            <pre>建议是否打标：建议打标并开展质检
+受影响章节：
+- C1基础情况：可执行
+- C2主体感知：可执行
+- C3热点关注：需先归纳相关维度
+- C4专题研判：适合纳入专题报告
+建议主题：${data.topic}
+自定义图表：无</pre>
+          </div>
+          <div class="stage-finish">✓ 需求澄清完成，可进入下一阶段：数据标注</div>
+        </div>
+      `;
+      return bubble;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function skillChip(label) {
+      return `<span style=\"display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;border:1px solid #cde0ff;background:#f4f8ff;color:#3478ff;font-size:12px;font-weight:700;vertical-align:middle;margin:0 4px;\">${escapeHtml(label)}</span>`;
+    }
+
+    function renderSkillText(text) {
+      const labels = ['提示词打标技能', '智能质检技能', '报告章节生成技能', '热点案例联网查询技能', '分析维度归纳技能', '智能问数技能', '归因及研判分析技能'];
+      let html = escapeHtml(text);
+      labels.forEach(label => {
+        html = html.split(escapeHtml(label)).join(skillChip(label));
+      });
+      return html;
+    }
+
+    async function revealTimeline(ref, text, extraNode=null) {
+      const indicator = ref.item.querySelector('.timeline-indicator');
+      if (indicator) {
+        indicator.innerHTML = '<span class="timeline-dot"></span>';
+      }
+      const line = ref.item.querySelector('.timeline-line');
+      line.innerHTML = `<span class="inline-text"></span>`;
+      if (extraNode) {
+        line.classList.add('with-action');
+      }
+      const textHolder = line.querySelector('.inline-text');
+      await typeText(textHolder, text, TYPE_SPEED);
+      if (text !== renderSkillText(text)) {
+        textHolder.innerHTML = renderSkillText(text);
+      }
+      if (extraNode) line.appendChild(extraNode);
+      const duration = document.createElement('span');
+      duration.className = 'bubble-duration';
+      duration.textContent = formatDuration(ref.durationMs);
+      line.appendChild(duration);
+      scrollToBottom();
+    }
+
+    async function playDemandClarify(stream) {
+      const text1 = '我是E1需求澄清员，我负责理解数据结构、澄清用户需求，我将开始任务。';
+      const text2 = '已读取您上传的附件，数据字段较齐全。';
+      const text3 = '您已上传Excel工单数据并明确要求生成报告，但缺少报告类型、数据范围和重点关注等关键信息，我将向您提问。';
+      const text4 = '我已澄清您的需求，进入下一阶段：数据标注。';
+
+      const msg1 = await createThinkingMessage(stream, THINK_1 + text1.length * TYPE_SPEED);
+      await wait(THINK_1);
+      await revealTimeline(msg1, text1);
+
+      const msg2 = await createThinkingMessage(stream, THINK_2 + text2.length * TYPE_SPEED);
+      await wait(THINK_2);
+      await revealTimeline(msg2, text2);
+
+      const msg3 = await createThinkingMessage(stream, THINK_3 + text3.length * TYPE_SPEED);
+      await wait(THINK_3);
+      await revealTimeline(msg3, text3, buildAskAction());
+      await wait(1000);
+      openAnswerModal('demand');
+      if (autoplay) {
+        setTimeout(() => {
+          if (waitingForAnswer && !answerData) {
+            finalizeAnswers();
+          }
+        }, 1200);
+      }
+
+      while (waitingForAnswer || !answerData) {
+        await wait(100);
+      }
+
+      const msg4 = await createThinkingMessage(stream, THINK_4 + text4.length * TYPE_SPEED);
+      await wait(THINK_4);
+      await revealTimeline(msg4, text4);
+
+      const resultRow = document.createElement('div');
+      resultRow.className = 'row agent-inline fade-enter';
+      resultRow.innerHTML = `<div class="content-wrap"></div>`;
+      resultRow.querySelector('.content-wrap').appendChild(buildResultCard(answerData, 1100));
+      stream.appendChild(resultRow);
+    }
+
+    modalClose.addEventListener('click', () => {
+      if (waitingForAnswer && !hasModalAnswer(modalMode)) return;
+      answerModal.classList.remove('show');
+      waitingForAnswer = false;
+    });
+
+    modalCancel.addEventListener('click', () => {
+      if (waitingForAnswer && !hasModalAnswer(modalMode)) return;
+      answerModal.classList.remove('show');
+      waitingForAnswer = false;
+    });
+
+    modalSubmit.addEventListener('click', () => {
+      finalizeAnswers();
+    });
+
+    async function startScenario() {
+      const userText = composerInput.value.trim() || '分析工单，撰写报告';
+
+      const fileChip = document.createElement('div');
+      fileChip.className = 'file-chip';
+      fileChip.innerHTML = `
+        <span class="file-chip-icon">X</span>
+        <span class="file-chip-body">
+          <span class="file-chip-name">2025年民生诉求工单.xlsx</span>
+          <span class="file-chip-meta">xlsx ｜ 4.70MB</span>
+        </span>
+      `;
+
+      const userRow = createBubbleRow({
+        side: 'user',
+        bubbleClass: 'user',
+        html: `<div class="typing-text"></div>`,
+        extraNode: fileChip
+      });
+      await typeText(userRow.body, userText, TYPE_SPEED);
+
+      composerInput.value = '';
+      composerInput.placeholder = '请输入您的需求，使用@提及智能体场景或智能体，使用/调用技能';
+      attachmentChip.style.display = 'none';
+      mentionChip.style.display = 'none';
+      composerWrap.classList.add('composer-disabled');
+      sendBtn.textContent = '停止';
+      sendBtn.style.background = 'linear-gradient(180deg, #ff7b7b 0%, #f05a5a 100%)';
+
+      const thinkingScene = createBubbleRow({
+        side: 'ai',
+        bubbleClass: 'thinking-bubble',
+        rowClass: 'scene-thinking',
+        html: `<div class="thinking-inline"><span class="spinner"></span><span>大模型思考中</span></div>`
+      });
+      await wait(THINK_AI);
+      thinkingScene.row.remove();
+
+      await wait(240);
+      const scene = buildSceneContainer();
+      await runStatuses(scene.runtimeBox);
+      scene.flowWrap.classList.remove('hidden');
+      scene.divider.classList.remove('hidden');
+      scene.recordWrap.classList.remove('hidden');
+      renderFlow(scene.flowTrack, 0);
+      await wait(560);
+      await playDemandClarify(scene.agentStream);
+
+      if (flowNodeEls[0]) {
+        flowNodeEls[0].classList.remove('current');
+        flowNodeEls[0].classList.add('done');
+      }
+      if (flowNodeEls[1]) {
+        flowNodeEls[1].classList.add('current');
+      }
+      scrollToBottom();
+    }
+
+    sendBtn.addEventListener('click', () => {
+      if (hasStarted) return;
+      hasStarted = true;
+      startScenario();
+    });
+
+    if (autoplay) {
+      setTimeout(() => {
+        if (!hasStarted) {
+          hasStarted = true;
+          startScenario();
+        }
+      }, 300);
+    }
+  </script>
+  <script>
+    (() => {
+      const autoplayV2 = new URLSearchParams(window.location.search).get('autoplay2') === '1';
+      const TASK_LINK = 'https://www.baidu.com';
+      let startedV2 = false;
+
+      const stageConfigsV2 = {
+        e1: {
+          flowIndex: 0,
+          summaryTag: '需求澄清',
+          summaryText: '负责理解数据结构、澄清用户需求，并在补充关键信息后形成标准化结果块，为后续数据标注、标注质检和报告生成提供统一输入。',
+          autoOpenAnswerDelay: 1000,
+          messages: [
+            { text: '我是E1需求澄清员，我负责理解数据结构、澄清用户需求，我将开始任务。', think: 4000 },
+            { text: '已读取您上传的附件，数据字段较齐全。', think: 14000 },
+            { text: '您已上传Excel工单数据并明确要求生成报告，但缺少报告类型、数据范围和重点关注等关键信息，我将向您提问。', think: 5000, action: 'answer' },
+            { text: '我已澄清您的需求，进入下一阶段：数据标注。', think: 6000 }
+          ],
+          buildResult(ctx) {
+            return {
+              headTitle: '输出结果',
+              headSub: '需求澄清阶段标准结果块',
+              finishText: '✓ 需求澄清完成，可进入下一阶段：数据标注',
+              durationMs: 1100,
+              groups: [
+                { title: '【需求澄清】', content: `报告类型：${ctx.answerData?.reportType || '专题报告'}\n数据范围：2025年1月1日—2025年12月31日\n图表需求：${ctx.answerData?.charts || '需要图表，重点展示热点问题趋势和重点群体分布'}\n重点关注：${ctx.answerData?.topic || '新就业群体专题分析'}` },
+                { title: '【字段扫描】', content: '文件：2025年民生诉求工单.xlsx\n总工单量：20875\n字段概览：\n[√] 工单编号、受理时间、诉求标题、诉求内容、所属区县、所属街道、渠道来源、承办单位、办理状态、办理时间、满意度评价\n[△] 平台企业字段（若无则从文本中补充识别）、是否超期字段（需计算）\n[×] 缺失：部分企业名称需由文本补充识别' },
+                { title: '【数据评估】', content: `建议是否打标：${ctx.answerData?.labeling || '建议打标并开展质检'}\n受影响章节：\n- C1基础情况：可执行\n- C2主体感知：可执行\n- C3热点关注：需先归纳相关维度\n- C4专题研判：适合纳入专题报告\n建议主题：${ctx.answerData?.topic || '新就业群体专题分析'}\n自定义图表：无` }
+              ]
+            };
+          }
+        },
+        e2: {
+          flowIndex: 1,
+          summaryTag: '数据标注',
+          summaryText: '负责判断当前数据是否需要打标，并在用户确认后进一步确认采用提示词打标技能完成标签补充，把结果以标准块形式交给后续流程，不参与质检、章节梳理和正文撰写。',
+          messages: [
+            { text: '我是E2数据标注员，我负责为民生诉求工单进行打标，我将开始任务。', think: 3000 },
+            { text: '已读取上一阶段创建的任务，使用提示词打标技能进行打标。', think: 11000 },
+            { text: '需打标签：网约车司机、快递员、货车车主、外卖骑手、货拉拉司机、网络主播、家政阿姨、养老护理员、网络博主、育婴员、电商从业者、母婴护理员（月嫂）、康复理疗师、同城配送员、跑腿代办员、宠物服务师、代驾司机、网络客服、在线教师、产后康复师、收纳整理师、无人机驾驶员。', think: 4500 },
+            {
+              text: '已创建系统任务：20260422附件名称示例-新就业群体打标任务。',
+              think: 2500,
+              taskCard: {
+                title: '20260422附件名称示例-新就业群体打标任务',
+                progressStops: [18, 42, 51, 75, 100],
+                stepDelay: 1100
+              }
+            },
+            { text: '已完成打标。目标工单20845件，成功打标16947件，打标覆盖率81.3%，进入下一阶段：标注质检。', think: 6000 }
+          ],
+          buildResult() {
+            return {
+              headTitle: '打标结果',
+              headSub: '数据标注阶段标准结果块',
+              finishText: '✓ 数据标注完成，结果已交付下一阶段：标注质检',
+              durationMs: 226000,
+              groups: [
+                { type: 'file', title: '打标附件导出', fileName: '20260422附件名称示例-新就业群体打标任务.xls' },
+                {
+                  type: 'stats',
+                  title: '打标情况统计',
+                  metrics: [
+                    { label: '目标工单量', value: '20,845', c1: '#6aa8ff', c2: '#3478ff' },
+                    { label: '成功打标量', value: '16,947', c1: '#66d0b0', c2: '#1fb989' },
+                    { label: '标签覆盖率', value: '81.3%', c1: '#ffb067', c2: '#ff7e45' }
+                  ],
+                  trend: [
+                    ['1月', 2.8], ['2月', 3.0], ['3月', 3.4], ['4月', 3.8],
+                    ['5月', 4.0], ['6月', 4.4], ['7月', 4.9], ['8月', 4.6],
+                    ['9月', 4.2], ['10月', 3.9], ['11月', 3.5], ['12月', 3.1]
+                  ],
+                  labels: [
+                    ['网约车司机', 3560, '#5e9cff', '#3478ff'],
+                    ['快递员', 2894, '#66d0b0', '#1fb989'],
+                    ['外卖骑手', 2488, '#ffb067', '#ff7e45'],
+                    ['货车车主', 1862, '#8d87ff', '#6658ff'],
+                    ['家政阿姨', 1224, '#ff8fb2', '#ff5f8d']
+                  ],
+                  hotspots: [
+                    ['网约出租车司机群体反映平台扣罚车费或奖励、封禁账号等规则不合理', 76000, '#ffb067', '#ff7e45'],
+                    ['网约车司机群体反映平台派单限制多、订单单价低、平台抽成高', 40000, '#6aa8ff', '#3478ff'],
+                    ['网约车司机群体希望平台及相关部门加强司机群体权益维护', 45000, '#66d0b0', '#1fb989'],
+                    ['货车司机群体反映货运平台收费、处罚机制及平台违规行为', 20000, '#8d87ff', '#6658ff']
+                  ]
+                }
+              ]
+            };
+          }
+        },
+        e3: {
+          flowIndex: 2,
+          nextFlowIndex: 3,
+          summaryTag: '标注质检',
+          summaryText: '负责对数据标注阶段形成的主诉身份标签和话题标签开展全量质检，输出质检底单、质检报告、问题标签分布和修正建议，确认后交付章节梳理。',
+          autoOpenAnswerDelay: 1000,
+          messages: [
+            { text: '我是E3标注质检员，我负责对上一阶段打标结果进行全量质检，我将开始任务。', think: 3000 },
+            { text: '已接收数据标注阶段成果：目标工单20845件，覆盖工单16947件，整体覆盖率81.3%。本阶段将对主诉身份标签和话题标签两个维度同步质检。', think: 5200 },
+            { text: '已调用智能质检技能，按全量质检口径核验标签对象、标签细项、标签类别和证据支撑情况。', think: 6800 },
+            {
+              text: '已创建系统任务：20260422附件名称示例-新就业群体打标-智能质检任务。',
+              think: 2500,
+              taskCard: {
+                title: '20260422附件名称示例-新就业群体打标-智能质检任务',
+                progressStops: [16, 38, 64, 73, 87, 95, 100],
+                stepDelay: 1230
+              }
+            },
+            { text: '已完成全量质检。覆盖工单16947件，质检标签项33894项，整体准确率87.4%。需要您确认质检是否通过。', think: 3600, action: 'qualityConfirm' },
+            { text: '已收到您的回答，标注质检完成，进入下一阶段：章节梳理。', think: 6000 }
+          ],
+          buildResult() {
+            return {
+              headTitle: '质检结果',
+              headSub: '标注质检阶段标准结果块',
+              finishText: '✓ 标注质检完成，结果已交付下一阶段：章节梳理',
+              durationMs: 186000,
+              groups: [
+                {
+                  type: 'files',
+                  title: '质检附件导出',
+                  files: [
+                    { fileName: '20260422附件名称示例-新就业群体打标-智能质检任务（质检底单）.xls', icon: 'X', c1: '#5bc7a4', c2: '#1fb989' },
+                    { fileName: '20260422附件名称示例-新就业群体打标-智能质检任务（质检报告）.docx', icon: 'W', c1: '#6aa8ff', c2: '#3478ff' }
+                  ]
+                },
+                { title: '智能质检建议', content: qualitySuggestionText },
+                { type: 'html', html: buildQualityStatsHtml() }
+              ]
+            };
+          }
+        },
+        e4: {
+          flowIndex: 3,
+          nextFlowIndex: 4,
+          summaryTag: '章节梳理',
+          summaryText: '负责根据报告类型、数据可用性、重点关注和章节规则，梳理本次报告大纲、章节顺序、分析任务和图表候选，不直接撰写正文。',
+          awaitOutlineConfirm: true,
+          messages: [
+            { text: '我是E4报告撰写员，我负责梳理报告大纲，我将开始任务。', think: 3000 },
+            { text: '已读取前置阶段成果，使用报告章节生成技能梳理报告大纲。', think: 11000 },
+            { text: '已完成大纲梳理，请您确认大纲是否需要调整。', think: 3000 }
+          ],
+          buildResult() {
+            return {
+              headTitle: '报告大纲',
+              headSub: '报告章节梳理阶段标准结果块',
+              finishText: '请确认报告大纲后进入下一阶段：数据分析',
+              durationMs: 22000,
+              groups: [
+                { type: 'outline' }
+              ]
+            };
+          }
+        },
+        e5: {
+          flowIndex: 4,
+          nextFlowIndex: 5,
+          summaryTag: '数据分析',
+          summaryText: '负责根据E4输出的章节结构和分析任务清单，完成统计、归纳、联网案例检索和可视化图表制作，形成可直接供最终报告撰写使用的数据包。',
+          awaitDataConfirm: true,
+          messages: [
+            { text: '我是E5数据分析员，我负责接收前置阶段成果并进行数据统计、可视化图表制作、热点案例检索工作，我将开始任务。', think: 3000 },
+            { text: '已读取章节梳理阶段成果，已明确需要准备的数据。', think: 11000 },
+            { text: '大纲结构包含热点关注，报告主题为“新就业群体诉求分析”，使用热点案例联网查询技能搜索主题相关的民生热点。', think: 12000 },
+            { text: '已完成热点检索，读取已标注、已质检工单，使用分析维度归纳技能，根据标签明细重新总结为报告可用的分析维度。', think: 17000 },
+            { text: '已完成所有前置工作，使用智能问数技能，统计报告所需的数据指标及可视化图表。', think: 27000 },
+            { text: '已完成有效数据分析，请您核对数据。', think: 3000 }
+          ],
+          buildResult() {
+            return {
+              headTitle: '数据统计结果',
+              headSub: '数据分析阶段标准结果块',
+              finishText: '请确认数据统计结果后进入最后一个阶段：最终报告撰写',
+              durationMs: 73000,
+              groups: [
+                { type: 'dataAnalysis' }
+              ]
+            };
+          }
+        },
+        e6: {
+          flowIndex: 5,
+          summaryTag: '报告撰写',
+          summaryText: '负责读取E5的章节数据和分析结果，按章节顺序逐章调用章节写作能力，生成专题报告正文，并在完成后输出可导出、可在线编辑的完整报告。',
+          messages: [
+            { text: '我是E6报告撰写员，我负责接收前置阶段的成果，撰写最终报告。', think: 3000 },
+            { text: '已读取章节梳理阶段的目标大纲结构。', think: 11000 },
+            { text: '已读取数据分析阶段的数据清单及可视化图表，已明确取数规则。', think: 11000 },
+            { text: '使用报告章节生成技能，逐章生成报告内容。', think: 12000 },
+            { text: '已完成第一章：报告背景撰写。', think: 8000 },
+            { text: '已完成第二章：基础情况撰写（诉求总量20,897件）。', think: 11000 },
+            { text: '已完成第三章：分群体分析撰写，共包含六大类新就业群体：网约车/代驾司机（2,948件）、快递/外卖配送员（1,776件）、货运司机（1,448件）、网络内容创作者（302件）、家政/护理人员（286件）、在线服务从业者（29件）。', think: 20000 },
+            { text: '使用热点案例联网查询技能，根据各类群体热点问题，查询相关佐证材料。', think: 15000 },
+            { text: '使用归因及研判分析技能，完成第四章：研判分析撰写，并补全针对各类群体核心诉求的归因分析。', think: 15000 },
+            { text: '已完成整报告内容的撰写，若需要调整，请点击“调整内容”并提出您的需求。', think: 8000 }
+          ],
+          buildResult() {
+            return {
+              headTitle: '新就业群体专题分析报告.docx',
+              headSub: '最终报告撰写阶段输出结果',
+              finishText: '✓ 最终报告已生成，可导出、在线编辑或继续调整内容',
+              durationMs: 114000,
+              groups: [
+                { type: 'finalReport' }
+              ]
+            };
+          }
+        }
+      };
+
+      function ensureStageSummary(scene) {
+        let summary = scene.recordWrap.querySelector('[data-stage-summary=\"1\"]');
+        if (!summary) {
+          summary = document.createElement('div');
+          summary.setAttribute('data-stage-summary', '1');
+          summary.style.cssText = 'border:1px solid #e3ebf5;border-radius:14px;background:#fbfdff;padding:12px 14px;margin-bottom:12px;color:#4b5f7e;font-size:13px;line-height:1.8;';
+          scene.recordWrap.insertBefore(summary, scene.agentStream);
+        }
+        return summary;
+      }
+
+      function renderStageSummary(scene, stage) {
+        const summary = ensureStageSummary(scene);
+        summary.innerHTML = `<span style=\"display:inline-flex;align-items:center;justify-content:center;min-width:56px;height:32px;padding:0 12px;border-radius:999px;border:1px solid #d7e4f4;background:#fff;color:#365987;font-weight:700;margin-right:10px;vertical-align:top;white-space:nowrap;\">${stage.summaryTag}</span>${stage.summaryText}`;
+      }
+
+      function updateFlowStateV2(currentIndex) {
+        flowNodeEls.forEach((node, index) => {
+          node.classList.remove('done', 'current');
+          if (index < currentIndex) node.classList.add('done');
+          if (index === currentIndex) node.classList.add('current');
+        });
+      }
+
+      function buildTaskCardV2(cfg) {
+        const card = document.createElement('div');
+        card.style.cssText = 'display:grid;gap:10px;padding:14px 16px;border:1px solid #dfe8f4;border-radius:14px;background:linear-gradient(180deg,#fbfdff 0%,#f6f9ff 100%);box-shadow:0 6px 18px rgba(31,45,67,.05);cursor:pointer;';
+        card.innerHTML = `
+          <div style=\"display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:#415774;\">
+            <div style=\"display:inline-flex;align-items:center;gap:10px;min-width:0;font-weight:700;color:#2f4666;\">
+              <span style=\"width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,#eaf3ff 0%,#dfeeff 100%);color:#428dff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;\">◔</span>
+              <span style=\"min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;\">${cfg.title}</span>
+            </div>
+            <span class=\"task-card-percent\">0%</span>
+          </div>
+          <div style=\"height:10px;border-radius:999px;background:#edf3fb;overflow:hidden;\"><div class=\"task-progress-bar\" style=\"height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#4d98ff 0%,#2f87ff 100%);transition:width .45s ease;\"></div></div>
+        `;
+        card.addEventListener('click', () => window.open(TASK_LINK, '_blank'));
+        return card;
+      }
+
+      async function animateTaskCardV2(card, cfg) {
+        const bar = card.querySelector('.task-progress-bar');
+        const percent = card.querySelector('.task-card-percent');
+        for (const stop of cfg.progressStops) {
+          await wait(cfg.stepDelay);
+          bar.style.width = `${stop}%`;
+          percent.textContent = `${stop}%`;
+        }
+      }
+
+      function resultTitle(icon, text, c1, c2) {
+        return `<span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:22px;height:22px;border-radius:7px;background:linear-gradient(180deg,${c1} 0%,${c2} 100%);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">${icon}</span><span>${text}</span></span>`;
+      }
+
+      function metricCard(label, value, c1, c2, note = '') {
+        return `
+          <div style="border:1px solid #e3ebf5;border-radius:12px;background:linear-gradient(180deg,${c1}14 0%,#ffffff 100%);padding:12px 14px;">
+            <div style="font-size:12px;color:#8ea2bd;">${label}</div>
+            <div style="font-size:24px;line-height:1.2;font-weight:800;color:#24395a;margin-top:6px;">${value}</div>
+            ${note ? `<div style="font-size:12px;color:#7e91ad;margin-top:6px;">${note}</div>` : ''}
+          </div>
+        `;
+      }
+
+      function qualityBarRows(items, maxValue, formatter = value => value) {
+        return items.map(([name, value, c1, c2, note]) => `
+          <div style="display:grid;gap:7px;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <span style="font-size:12px;color:#5d7394;line-height:1.7;">${name}</span>
+              <span style="font-size:12px;color:#7388a6;white-space:nowrap;">${formatter(value)}</span>
+            </div>
+            <span style="height:10px;border-radius:999px;background:#edf3fb;overflow:hidden;">
+              <span style="display:block;height:100%;width:${Math.max(4, (value / maxValue) * 100)}%;background:linear-gradient(90deg,${c1} 0%,${c2} 100%);border-radius:inherit;"></span>
+            </span>
+            ${note ? `<div style="font-size:12px;color:#95a7bf;line-height:1.6;">${note}</div>` : ''}
+          </div>
+        `).join('');
+      }
+
+      function buildFilesGroupHtml(group) {
+        const fileCards = group.files.map(file => `
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border:1px solid #e3ebf5;border-radius:12px;background:#fff;min-width:0;">
+            <div style="display:inline-flex;align-items:center;gap:12px;min-width:0;">
+              <span style="width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,${file.c1}24 0%,#fff 100%);color:${file.c2};display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 34px;">${file.icon}</span>
+              <span style="min-width:0;color:#314760;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${file.fileName}</span>
+            </div>
+            <div style="display:inline-flex;align-items:center;gap:10px;color:#8ea2bd;flex:0 0 auto;">
+              <span data-link="${TASK_LINK}" style="cursor:pointer;">◉</span>
+              <span data-link="${TASK_LINK}" style="cursor:pointer;">⇩</span>
+              <span>×</span>
+            </div>
+          </div>
+        `).join('');
+        return `
+          <div class="result-group">
+            <div class="result-group-title">${resultTitle('附', group.title, '#5bc7a4', '#1fb989')}</div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">${fileCards}</div>
+          </div>
+        `;
+      }
+
+      function buildQualityStatsHtml() {
+        const metricCards = [
+          metricCard('目标工单量', '20,845', '#6aa8ff', '#3478ff', '全量质检范围'),
+          metricCard('覆盖工单量', '16,947', '#66d0b0', '#1fb989', '整体覆盖率 81.3%'),
+          metricCard('疑似漏打工单量', '3,898', '#ffb067', '#ff7e45', '占比 18.7%'),
+          metricCard('全量质检标签项', '33,894', '#8d87ff', '#6658ff', '主诉身份 + 话题'),
+          metricCard('正确标签项', '29,621', '#5bc7a4', '#1fb989', '整体准确率 87.4%'),
+          metricCard('错误标签项', '4,273', '#ff8f8f', '#f05a5a', '错误占比 12.6%')
+        ].join('');
+        const overallRows = qualityBarRows([
+          ['正确标签项', 29621, '#66d0b0', '#1fb989', '占全量质检标签项 87.4%'],
+          ['错误标签项', 4273, '#ff8f8f', '#f05a5a', '占全量质检标签项 12.6%']
+        ], 29621, value => value.toLocaleString());
+        const dimensionRows = qualityBarRows([
+          ['主诉身份标签准确率', 86.4, '#6aa8ff', '#3478ff', '覆盖 16,947 项，正确 14,642 项，错误 2,305 项'],
+          ['话题标签准确率', 88.4, '#66d0b0', '#1fb989', '覆盖 16,947 项，正确 14,979 项，错误 1,968 项']
+        ], 100, value => `${value.toFixed(1)}%`);
+        const reasonRows = qualityBarRows([
+          ['标签对象错误', 1960, '#ffb067', '#ff7e45', '主要集中在主诉身份标签'],
+          ['标签细项错误', 825, '#6aa8ff', '#3478ff', '主要集中在话题标签'],
+          ['证据不支持该标签', 813, '#8d87ff', '#6658ff', '身份与话题两个维度均存在'],
+          ['标签类别错误', 675, '#66d0b0', '#1fb989', '主要集中在话题标签']
+        ], 1960, value => value.toLocaleString());
+        const labelRows = qualityBarRows([
+          ['网约车司机', 1280, '#6aa8ff', '#3478ff', '标签对象错误 1,150 次；证据不支持 130 次'],
+          ['快递员', 620, '#66d0b0', '#1fb989', '标签对象错误 620 次'],
+          ['货车车主', 405, '#ffb067', '#ff7e45', '标签对象错误 190 次；证据不支持 215 次'],
+          ['驾驶员从业资格', 430, '#8d87ff', '#6658ff', '标签细项错误 430 次'],
+          ['劳动合同纠纷', 380, '#ff8fb2', '#ff5f8d', '标签细项错误 210 次；标签类别错误 170 次']
+        ], 1280, value => value.toLocaleString());
+        return `
+          <div class="result-group">
+            <div class="result-group-title">${resultTitle('统', '质检情况统计', '#ffad66', '#ff7e45')}</div>
+            <div style="display:grid;gap:14px;">
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">${metricCards}</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                  <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('总', '整体正确/错误分布', '#6aa8ff', '#3478ff')}</div>
+                  <div style="height:18px;border-radius:999px;background:#edf3fb;overflow:hidden;display:flex;margin-bottom:12px;">
+                    <span style="width:87.4%;background:linear-gradient(90deg,#66d0b0 0%,#1fb989 100%);"></span>
+                    <span style="width:12.6%;background:linear-gradient(90deg,#ff8f8f 0%,#f05a5a 100%);"></span>
+                  </div>
+                  <div style="display:grid;gap:12px;">${overallRows}</div>
+                </div>
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                  <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('签', '两个标签维度准确率对比', '#66d0b0', '#1fb989')}</div>
+                  <div style="display:grid;gap:12px;">${dimensionRows}</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                  <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('因', '错误原因分布', '#ffb067', '#ff7e45')}</div>
+                  <div style="display:grid;gap:12px;">${reasonRows}</div>
+                </div>
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                  <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('热', '高频出错标签排行', '#8d87ff', '#6658ff')}</div>
+                  <div style="display:grid;gap:12px;">${labelRows}</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fbfdff;">
+                  <div style="font-weight:800;color:#304866;margin-bottom:6px;">整体质检结果</div>
+                  <div style="font-size:12px;color:#5d7394;line-height:1.8;">共完成全量质检标签项33,894项，正确29,621项，错误4,273项，整体准确率87.4%。覆盖工单16,947件，覆盖率81.3%，未覆盖/疑似漏打工单3,898件。</div>
+                </div>
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fbfdff;">
+                  <div style="font-weight:800;color:#304866;margin-bottom:6px;">主诉身份标签 质检分析</div>
+                  <div style="font-size:12px;color:#5d7394;line-height:1.8;">覆盖16,947项，正确14,642项，错误2,305项，准确率86.4%。错误主要集中在标签对象错误和证据不支持该标签。</div>
+                </div>
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fbfdff;">
+                  <div style="font-weight:800;color:#304866;margin-bottom:6px;">话题标签 质检分析</div>
+                  <div style="font-size:12px;color:#5d7394;line-height:1.8;">覆盖16,947项，正确14,979项，错误1,968项，准确率88.4%。错误主要集中在标签细项错误、标签类别错误和证据不支持该标签。</div>
+                </div>
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fbfdff;">
+                  <div style="font-weight:800;color:#304866;margin-bottom:6px;">质检总结</div>
+                  <div style="font-size:12px;color:#5d7394;line-height:1.8;">整体质量接近标准但仍存在改进空间，建议优先治理高频错标职业标签，补充话题标签正反例，并将疑似漏打工单纳入下一轮补标和复核闭环。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function buildOutlineGroupHtml() {
+        const rows = [
+          ['标题', '新就业群体分析报告', 0, true],
+          ['第1章', '报告背景', 0, false],
+          ['第2章', '基本情况', 0, false],
+          ['第3章', '分群体分析', 0, false],
+          ['3.1', '群体1（最终输出报告后获取）', 1, false],
+          ['3.2', '群体2（最终输出报告后获取）', 1, false],
+          ['3.3', '群体3（最终输出报告后获取）', 1, false],
+          ['第4章', '研判分析', 0, false]
+        ];
+        const rowHtml = rows.map(([label, title, level, isTitle], index) => `
+          <div style="display:grid;grid-template-columns:76px 26px minmax(0,1fr);align-items:center;min-height:42px;">
+            <div style="font-size:13px;color:${isTitle ? '#8a9ab4' : '#7f90aa'};text-align:right;padding-right:12px;">${label}</div>
+            <div style="position:relative;height:42px;display:flex;align-items:center;justify-content:center;">
+              ${index === 0 ? '' : '<span style="position:absolute;top:0;bottom:50%;width:1px;background:#dfe7f2;"></span>'}
+              ${index === rows.length - 1 ? '' : '<span style="position:absolute;top:50%;bottom:0;width:1px;background:#dfe7f2;"></span>'}
+              <span style="position:relative;z-index:1;width:${isTitle ? 8 : 7}px;height:${isTitle ? 8 : 7}px;border-radius:50%;background:#fff;border:1px solid #d8e2ef;"></span>
+            </div>
+            <div style="padding-left:${level ? 18 : 0}px;font-size:${isTitle ? 15 : 14}px;font-weight:800;color:${isTitle ? '#24456f' : '#2b4a74'};letter-spacing:.1px;">${title}</div>
+          </div>
+        `).join('');
+        return `
+          <div class="result-group">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+              <div class="result-group-title" style="margin-bottom:0;">报告大纲</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <button class="ghost-btn outline-confirm-btn" type="button" style="cursor:pointer;color:#2b4a74;">确认大纲</button>
+                <button class="ghost-btn outline-rewrite-btn" type="button" style="cursor:pointer;color:#2b4a74;">重写大纲</button>
+              </div>
+            </div>
+            <div style="border:1px solid #e3ebf5;border-radius:12px;background:#fff;padding:18px 22px 20px;min-height:360px;">
+              <div style="display:grid;gap:0;max-width:560px;">${rowHtml}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      function buildMiniLineChart(data) {
+        const width = 620;
+        const height = 220;
+        const left = 42;
+        const right = 24;
+        const top = 24;
+        const bottom = 42;
+        const max = Math.max(...data.map(item => item[1]));
+        const min = Math.min(...data.map(item => item[1]));
+        const span = Math.max(1, max - min);
+        const points = data.map(([label, value], idx) => {
+          const x = left + idx * ((width - left - right) / (data.length - 1));
+          const y = top + (max - value) / span * (height - top - bottom);
+          return { label, value, x, y };
+        });
+        return `
+          <svg viewBox="0 0 ${width} ${height}" style="width:100%;height:220px;">
+            ${[0,1,2,3].map(i => {
+              const y = top + i * ((height - top - bottom) / 3);
+              return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="#ebf1f8" stroke-width="1"></line>`;
+            }).join('')}
+            <polyline points="${points.map(p => `${p.x},${p.y}`).join(' ')}" fill="none" stroke="#3478ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            ${points.map(p => `<circle cx="${p.x}" cy="${p.y}" r="4.5" fill="#ff8f4d"></circle><text x="${p.x - 13}" y="${p.y - 10}" fill="#607a9b" font-size="10">${p.value.toLocaleString()}</text><text x="${p.x - 10}" y="${height - 12}" fill="#91a4bd" font-size="10">${p.label}</text>`).join('')}
+          </svg>
+        `;
+      }
+
+      function buildDonutLegend(items) {
+        const colors = ['#1f64ad', '#4d95dc', '#2f8b57', '#e8843a', '#8d62b8', '#34b889', '#f05a5a', '#f2a51a'];
+        let start = 0;
+        const stops = items.map((item, idx) => {
+          const end = start + item[2];
+          const segment = `${colors[idx]} ${start}% ${end}%`;
+          start = end;
+          return segment;
+        }).join(', ');
+        const legend = items.map((item, idx) => `
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#5d7394;">
+            <span style="display:inline-flex;align-items:center;gap:8px;min-width:0;"><i style="width:10px;height:10px;border-radius:3px;background:${colors[idx]};flex:0 0 10px;"></i><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item[0]}</span></span>
+            <span style="white-space:nowrap;color:#7388a6;">${item[1].toLocaleString()}｜${item[2].toFixed(1)}%</span>
+          </div>
+        `).join('');
+        return `
+          <div style="display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center;">
+            <div style="width:200px;height:200px;border-radius:50%;background:conic-gradient(${stops});position:relative;margin:auto;">
+              <div style="position:absolute;inset:54px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#24456f;font-weight:800;">诉求类型</div>
+            </div>
+            <div style="display:grid;gap:9px;">${legend}</div>
+          </div>
+        `;
+      }
+
+      function buildDataAnalysisHtml() {
+        const monthData = [['1月',1408],['2月',1130],['3月',1822],['4月',1617],['5月',1763],['6月',1998],['7月',2100],['8月',2005],['9月',2082],['10月',1798],['11月',1686],['12月',1488]];
+        const typeItems = [['投诉',11058,52.9],['求助',6065,29.0],['举报',1941,9.3],['咨询',1310,6.3],['建议',366,1.8],['投诉（纠错）',137,0.7],['表扬',18,0.1],['政府网站纠错',2,0.0]];
+        const identityRows = [
+          ['网约车/代驾司机', 2948, '#3478ff', '#1f64ad', '占已识别身份工单 43.4%'],
+          ['快递/外卖配送员', 1776, '#6aa8ff', '#4d95dc', '占已识别身份工单 26.1%'],
+          ['货运司机', 1448, '#66d0b0', '#2f8b57', '占已识别身份工单 21.3%'],
+          ['网络内容创作者', 302, '#8d87ff', '#6658ff', '占已识别身份工单 4.4%'],
+          ['家政/护理人员', 286, '#ff8fb2', '#ff5f8d', '占已识别身份工单 4.2%'],
+          ['在线服务从业者', 29, '#ffb067', '#ff7e45', '占已识别身份工单 0.4%'],
+          ['其他', 3, '#9aaeca', '#7388a6', '占比不足 0.1%']
+        ];
+        const hotspotRows = [
+          ['网约车/代驾司机｜平台考核与服务质量投诉', 900, '#3478ff', '#1f64ad', '规则透明、派单服务、投诉处理'],
+          ['快递/外卖配送员｜快递外卖配送服务纠纷', 888, '#6aa8ff', '#4d95dc', '末端配送、签收、理赔'],
+          ['网约车/代驾司机｜从业资格与准入合规管理', 781, '#66d0b0', '#2f8b57', '证照资质、准入合规'],
+          ['货运司机｜其他', 504, '#8d87ff', '#6658ff', '经营场景分散事项'],
+          ['网约车/代驾司机｜平台订单价格与抽成争议', 499, '#ffb067', '#ff7e45', '订单价格、抽成、结算'],
+          ['快递/外卖配送员｜其他', 449, '#9aaeca', '#7388a6', '综合维权事项'],
+          ['网约车/代驾司机｜其他', 289, '#5bc7a4', '#1fb989', '服务与运营综合问题'],
+          ['货运司机｜交通事故处理与赔偿纠纷', 212, '#ff8fb2', '#ff5f8d', '事故责任、赔付争议'],
+          ['货运司机｜运输经营纠纷与维权', 212, '#8d87ff', '#6658ff', '运输经营、结算纠纷'],
+          ['快递/外卖配送员｜劳动合同与薪酬福利争议', 167, '#6aa8ff', '#3478ff', '薪酬、合同、福利'],
+          ['货运司机｜从业资格与准入管理', 164, '#66d0b0', '#1fb989', '从业资格、准入规则'],
+          ['网约车/代驾司机｜失物招领与物品寻回', 153, '#ffb067', '#ff7e45', '失物、物品寻回']
+        ];
+        const metricCards = [
+          metricCard('工单总量', '20,897', '#6aa8ff', '#3478ff', '2025-01-01 至 2025-12-24'),
+          metricCard('已识别身份工单', '6,792', '#66d0b0', '#1fb989', '占全量 32.5%'),
+          metricCard('未识别身份工单', '14,105', '#ffb067', '#ff7e45', '占全量 67.5%'),
+          metricCard('模型话题种类', '979', '#8d87ff', '#6658ff', '用于维度归纳'),
+          metricCard('诉求来源种类', '23', '#5bc7a4', '#1fb989', '多渠道汇聚'),
+          metricCard('受理部门种类', '81', '#ff8fb2', '#ff5f8d', '跨部门协同')
+        ].join('');
+        return `
+          <div class="result-group">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+              <div class="result-group-title" style="margin-bottom:0;">数据统计结果</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <button class="ghost-btn data-confirm-btn" type="button" style="cursor:pointer;color:#2b4a74;">确认数据</button>
+                <button class="ghost-btn data-rewrite-btn" type="button" style="cursor:pointer;color:#2b4a74;">重新统计</button>
+              </div>
+            </div>
+            <div style="display:grid;gap:14px;">
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">${metricCards}</div>
+              <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('趋', '图1 新就业群体相关工单月度走势', '#6aa8ff', '#3478ff')}</div>
+                ${buildMiniLineChart(monthData)}
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                  <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('类', '图2 诉求类型分布', '#66d0b0', '#1fb989')}</div>
+                  ${buildDonutLegend(typeItems)}
+                </div>
+                <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                  <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('身', '图3 一级主诉身份归纳分布', '#8d87ff', '#6658ff')}</div>
+                  <div style="display:grid;gap:10px;">${qualityBarRows(identityRows, 2948, value => value.toLocaleString())}</div>
+                </div>
+              </div>
+              <div style="border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;">
+                <div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${resultTitle('热', '图4 数据驱动热点组合TOP12', '#ffb067', '#ff7e45')}</div>
+                <div style="display:grid;gap:10px;">${qualityBarRows(hotspotRows, 900, value => value.toLocaleString())}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function buildFinalReportHtml() {
+        const navItems = [
+          ['sec-bg', '第1章', '报告背景', 0],
+          ['sec-basic', '第2章', '基本情况', 0],
+          ['sec-group', '第3章', '分群体分析', 0],
+          ['sec-driver', '3.1', '网约车/代驾司机', 1],
+          ['sec-delivery', '3.2', '快递/外卖配送员', 1],
+          ['sec-freight', '3.3', '货运司机', 1],
+          ['sec-creator', '3.4', '网络内容创作者', 1],
+          ['sec-homecare', '3.5', '家政/护理人员', 1],
+          ['sec-online', '3.6', '在线服务从业者', 1],
+          ['sec-judge', '第4章', '研判分析', 0]
+        ];
+        const navHtml = navItems.map(([target, label, title, level], index) => `
+          <button class="report-nav-item" data-report-target="${target}" type="button" style="appearance:none;border:0;background:transparent;width:100%;display:grid;grid-template-columns:58px 24px minmax(0,1fr);align-items:center;min-height:38px;padding:0;text-align:left;cursor:pointer;">
+            <span style="font-size:12px;color:#7f90aa;text-align:right;padding-right:10px;">${label}</span>
+            <span style="position:relative;height:38px;display:flex;align-items:center;justify-content:center;">
+              ${index === 0 ? '' : '<i style="position:absolute;top:0;bottom:50%;width:1px;background:#dfe7f2;"></i>'}
+              ${index === navItems.length - 1 ? '' : '<i style="position:absolute;top:50%;bottom:0;width:1px;background:#dfe7f2;"></i>'}
+              <i style="position:relative;z-index:1;width:7px;height:7px;border-radius:50%;background:#fff;border:1px solid #d8e2ef;"></i>
+            </span>
+            <span style="padding-left:${level ? 12 : 0}px;font-size:13px;font-weight:800;color:#2b4a74;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${title}</span>
+          </button>
+        `).join('');
+        const section = (id, title, body) => `
+          <section data-report-section="${id}" style="padding:0 0 18px;margin-bottom:16px;border-bottom:1px solid #edf2f8;">
+            <h3 style="margin:0 0 10px;font-size:16px;color:#24395a;">${title}</h3>
+            <div style="display:grid;gap:10px;font-size:13px;line-height:1.85;color:#4f607a;">${body}</div>
+          </section>
+        `;
+        return `
+          <div class="result-group" style="padding:0;overflow:hidden;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid #e3ebf5;background:#fbfdff;">
+              <div style="font-size:14px;font-weight:800;color:#223a5c;">新就业群体专题分析报告.docx</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <button class="ghost-btn report-adjust-btn" type="button" style="cursor:pointer;color:#2b4a74;">调整内容</button>
+                <button class="ghost-btn" data-link="${TASK_LINK}" type="button" style="cursor:pointer;color:#2b4a74;">导出</button>
+                <button class="ghost-btn" data-link="${TASK_LINK}" type="button" style="cursor:pointer;color:#2b4a74;">在线编辑</button>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:250px minmax(0,1fr);min-height:560px;background:#fff;">
+              <aside style="border-right:1px solid #dfe7f2;padding:22px 18px;background:#fff;">
+                <div style="display:grid;gap:0;">${navHtml}</div>
+              </aside>
+              <main class="report-preview-pane" style="max-height:560px;overflow:auto;padding:24px 30px;background:#fff;">
+                <article style="max-width:780px;margin:0 auto;">
+                  <h2 style="margin:0 0 18px;text-align:center;font-size:22px;color:#1f3556;">新就业群体分析报告</h2>
+                  ${section('sec-bg', '一、报告背景', '<p style="margin:0;">围绕网约车司机、外卖骑手等群体开展诉求摸底分析，通过穿透式梳理一线民生工单，识别从政策到落地的堵点，为完善相关法律法规、优化算法治理及健全社会保障体系提供决策依据。</p>')}
+                  ${section('sec-basic', '二、基本情况', '<p style="margin:0;">本次专题共梳理新就业群体相关工单 <b>20,897</b> 件，时间跨度为 <b>2025年01月01日至2025年12月24日</b>。7月工单量达到峰值 <b>2,100</b> 件，6月至9月持续保持高位。</p><p style="margin:0;">投诉类工单 <b>11,058</b> 件，占比 <b>52.9%</b>；求助类工单 <b>6,065</b> 件，占比 <b>29.0%</b>；已识别主诉身份工单 <b>6,792</b> 件，占全量 <b>32.5%</b>。</p>')}
+                  ${section('sec-group', '三、分群体分析', '<p style="margin:0;">本章围绕已识别身份工单展开，重点呈现网约车/代驾司机、快递/外卖配送员、货运司机、网络内容创作者、家政/护理人员、在线服务从业者六类群体。</p>')}
+                  ${section('sec-driver', '3.1 网约车/代驾司机', '<p style="margin:0;">相关诉求共 <b>2,948</b> 件，占已识别身份工单的 <b>43.4%</b>。问题集中在平台考核与服务质量投诉、从业资格与准入合规管理、平台订单价格与抽成争议。</p><p style="margin:0;">核心矛盾包括平台运营规则透明度不足、监管边界和属地分工割裂、投诉核验链条对平台内部证据依赖较强。</p>')}
+                  ${section('sec-delivery', '3.2 快递/外卖配送员', '<p style="margin:0;">相关诉求共 <b>1,776</b> 件，占已识别身份工单的 <b>26.1%</b>。高频集中在包裹丢失损坏、物流信息不更新、虚假签收、未按址投递、理赔困难等末端配送问题。</p>')}
+                  ${section('sec-freight', '3.3 货运司机', '<p style="margin:0;">相关诉求共 <b>1,448</b> 件，占已识别身份工单的 <b>21.3%</b>。议题集中在交通事故处理与赔偿纠纷、运输经营纠纷与维权、从业资格与准入管理。</p>')}
+                  ${section('sec-creator', '3.4 网络内容创作者', '<p style="margin:0;">相关诉求共 <b>302</b> 件，占已识别身份工单的 <b>4.4%</b>。诉求重心更多落在直播交易、带货履约、平台流量经营和合作分成等新型经营场景。</p>')}
+                  ${section('sec-homecare', '3.5 家政/护理人员', '<p style="margin:0;">相关诉求共 <b>286</b> 件，占已识别身份工单的 <b>4.2%</b>。呈现消费维权和职业发展并行特点，既反映服务责任争议，也反映技能培训、补贴兑现和劳动保障问题。</p>')}
+                  ${section('sec-online', '3.6 在线服务从业者', '<p style="margin:0;">相关诉求共 <b>29</b> 件，占已识别身份工单的 <b>0.4%</b>。问题集中在物流寄递服务纠纷、劳动合同与权益纠纷、电商直播交易维权。</p>')}
+                  ${section('sec-judge', '四、研判分析', '<p style="margin:0;">当前热点已从单一服务纠纷扩展为平台规则、资格准入、劳动收益和跨区域协同处置等复合型问题。最集中的热点组合包括网约车/代驾司机平台考核与服务质量投诉 <b>900</b> 件、快递/外卖配送员快递外卖配送服务纠纷 <b>888</b> 件、网约车/代驾司机从业资格与准入合规管理 <b>781</b> 件。</p><p style="margin:0;">下一步可围绕规则公开、算法治理、跨域协同、权益保障和数字接口贯通五个方向同步发力。</p>')}
+                </article>
+              </main>
+            </div>
+          </div>
+        `;
+      }
+
+      function buildResultCardV2(resultConfig) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble result-block';
+        const richTitle = (icon, text, c1, c2) =>
+          `<span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:22px;height:22px;border-radius:7px;background:linear-gradient(180deg,${c1} 0%,${c2} 100%);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">${icon}</span><span>${text}</span></span>`;
+        const groupsHtml = resultConfig.groups.map(group => {
+          if (group.type === 'html') return group.html;
+          if (group.type === 'files') return buildFilesGroupHtml(group);
+          if (group.type === 'outline') return buildOutlineGroupHtml();
+          if (group.type === 'dataAnalysis') return buildDataAnalysisHtml();
+          if (group.type === 'finalReport') return buildFinalReportHtml();
+          if (group.type === 'file') {
+            return `
+              <div class=\"result-group\">
+                <div class=\"result-group-title\">${richTitle('附', group.title, '#5bc7a4', '#1fb989')}</div>
+                <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border:1px solid #e3ebf5;border-radius:12px;background:#fff;\">
+                  <div style=\"display:inline-flex;align-items:center;gap:12px;min-width:0;\">
+                    <span style=\"width:34px;height:34px;border-radius:10px;background:#e7fff2;color:#2fb36f;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 34px;\">X</span>
+                    <span style=\"min-width:0;color:#314760;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;\">${group.fileName}</span>
+                  </div>
+                  <div style=\"display:inline-flex;align-items:center;gap:10px;color:#8ea2bd;\">
+                    <span data-link=\"${TASK_LINK}\" style=\"cursor:pointer;\">◉</span>
+                    <span data-link=\"${TASK_LINK}\" style=\"cursor:pointer;\">⇩</span>
+                    <span>🗑</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          if (group.type === 'stats') {
+            const maxLabel = Math.max(...group.labels.map(item => item[1]));
+            const maxHotspot = Math.max(...group.hotspots.map(item => item[1]));
+            const metricCards = group.metrics.map(item => `
+              <div style=\"border:1px solid #e3ebf5;border-radius:12px;background:linear-gradient(180deg,${item.c1}14 0%,#ffffff 100%);padding:12px 14px;\">
+                <div style=\"font-size:12px;color:#8ea2bd;\">${item.label}</div>
+                <div style=\"font-size:24px;line-height:1.2;font-weight:800;color:#24395a;margin-top:6px;\">${item.value}</div>
+              </div>
+            `).join('');
+            const trendPoints = group.trend.map(([month, value], idx) => {
+              const x = 62 + idx * 40;
+              const y = 22 + (5 - value) * 30;
+              return { month, value, x, y };
+            });
+            const trendSvg = `
+              <svg viewBox=\"0 0 560 220\" style=\"width:100%;height:188px;\">
+                ${[0,1,2,3,4,5].map(v => {
+                  const y = 22 + (5 - v) * 30;
+                  return `<line x1=\"42\" x2=\"530\" y1=\"${y}\" y2=\"${y}\" stroke=\"${v === 0 ? '#d4e0ef' : '#ebf1f8'}\" stroke-width=\"1\"></line>
+                  <text x=\"8\" y=\"${y + 4}\" fill=\"#91a4bd\" font-size=\"11\">${v}万宗</text>`;
+                }).join('')}
+                <text x=\"500\" y=\"212\" fill=\"#91a4bd\" font-size=\"11\">月份</text>
+                <text x=\"6\" y=\"14\" fill=\"#91a4bd\" font-size=\"11\">工单量</text>
+                <polyline points=\"${trendPoints.map(p => `${p.x},${p.y}`).join(' ')}\" fill=\"none\" stroke=\"#4f8eff\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"></polyline>
+                ${trendPoints.map(p => `<circle cx=\"${p.x}\" cy=\"${p.y}\" r=\"4.5\" fill=\"#ff8f4d\"></circle><text x=\"${p.x - 12}\" y=\"${p.y - 10}\" fill=\"#607a9b\" font-size=\"10\">${p.value}万</text><text x=\"${p.x - 9}\" y=\"196\" fill=\"#91a4bd\" font-size=\"10\">${p.month}</text>`).join('')}
+              </svg>
+            `;
+            const labelRows = group.labels.map(([name, value, c1, c2]) => `
+              <div style=\"display:grid;grid-template-columns:88px 1fr 52px;gap:10px;align-items:center;\">
+                <span style=\"font-size:12px;color:#5d7394;\">${name}</span>
+                <span style=\"height:8px;border-radius:999px;background:#edf3fb;overflow:hidden;\"><span style=\"display:block;height:100%;width:${(value / maxLabel) * 100}%;background:linear-gradient(90deg,${c1} 0%,${c2} 100%);border-radius:inherit;\"></span></span>
+                <span style=\"font-size:12px;color:#7388a6;text-align:right;\">${value}</span>
+              </div>
+            `).join('');
+            const hotspotRows = group.hotspots.map(([name, value, c1, c2]) => `
+              <div style=\"display:grid;gap:7px;\">
+                <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;\"><span style=\"font-size:12px;color:#5d7394;line-height:1.7;\">${name}</span><span style=\"font-size:12px;color:#7388a6;white-space:nowrap;\">${(value / 10000).toFixed(1)}万宗</span></div>
+                <span style=\"height:10px;border-radius:999px;background:#fff1e8;overflow:hidden;\"><span style=\"display:block;height:100%;width:${(value / maxHotspot) * 100}%;background:linear-gradient(90deg,${c1} 0%,${c2} 100%);border-radius:inherit;\"></span></span>
+              </div>
+            `).join('');
+            return `
+              <div class=\"result-group\">
+                <div class=\"result-group-title\">${richTitle('统', group.title, '#ffad66', '#ff7e45')}</div>
+                <div style=\"display:grid;gap:14px;\">
+                  <div style=\"display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;\">${metricCards}</div>
+                  <div style=\"display:grid;grid-template-columns:1.15fr 1fr;gap:14px;\">
+                    <div style=\"border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;\">
+                      <div style=\"font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;\">${richTitle('折', '打标量趋势', '#6aa8ff', '#3478ff')}</div>
+                      ${trendSvg}
+                    </div>
+                    <div style=\"border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;\">
+                      <div style=\"font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;\">${richTitle('签', '标签分布情况', '#66d0b0', '#1fb989')}</div>
+                      <div style=\"display:grid;gap:10px;\">${labelRows}</div>
+                    </div>
+                  </div>
+                  <div style=\"border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;\">
+                    <div style=\"font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;\">${richTitle('热', '热点事件分布', '#ffb067', '#ff7e45')}</div>
+                    <div style=\"display:grid;gap:16px;\">${hotspotRows}</div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          return `<div class=\"result-group\"><div class=\"result-group-title\">${group.title}</div><pre>${group.content}</pre></div>`;
+        }).join('');
+        bubble.innerHTML = `
+          <div class=\"result-card-head\">
+            <div>
+              <div class=\"bubble-title\">${resultConfig.headTitle}</div>
+              <div class=\"bubble-sub\">${resultConfig.headSub}</div>
+            </div>
+            <div class=\"bubble-duration\">${formatDuration(resultConfig.durationMs)}</div>
+          </div>
+          <div class=\"result-card-body\">
+            ${groupsHtml}
+            <div class=\"stage-finish\">${resultConfig.finishText}</div>
+          </div>
+        `;
+        bubble.querySelectorAll('[data-link]').forEach(node => node.addEventListener('click', () => window.open(node.dataset.link, '_blank')));
+        bubble.querySelectorAll('.report-nav-item').forEach(node => {
+          node.addEventListener('click', () => {
+            const pane = bubble.querySelector('.report-preview-pane');
+            const target = bubble.querySelector(`[data-report-section="${node.dataset.reportTarget}"]`);
+            if (pane && target) {
+              pane.scrollTo({ top: target.offsetTop - pane.offsetTop - 8, behavior: 'smooth' });
+            }
+          });
+        });
+        const adjustBtn = bubble.querySelector('.report-adjust-btn');
+        if (adjustBtn) {
+          adjustBtn.addEventListener('click', () => {
+            adjustBtn.textContent = '等待调整需求';
+            adjustBtn.style.borderColor = '#cae0ff';
+            adjustBtn.style.color = '#428dff';
+          });
+        }
+        return bubble;
+      }
+
+      function waitOutlineConfirm(resultRow) {
+        return new Promise(resolve => {
+          const confirmBtn = resultRow.querySelector('.outline-confirm-btn');
+          const rewriteBtn = resultRow.querySelector('.outline-rewrite-btn');
+          if (!confirmBtn) {
+            resolve();
+            return;
+          }
+          const finish = () => {
+            confirmBtn.textContent = '已确认';
+            confirmBtn.disabled = true;
+            confirmBtn.style.opacity = '.65';
+            if (rewriteBtn) {
+              rewriteBtn.disabled = true;
+              rewriteBtn.style.opacity = '.45';
+            }
+            resolve();
+          };
+          confirmBtn.addEventListener('click', finish, { once: true });
+          if (rewriteBtn) {
+            rewriteBtn.addEventListener('click', () => {
+              rewriteBtn.textContent = '已重新梳理';
+              rewriteBtn.style.borderColor = '#cae0ff';
+              rewriteBtn.style.color = '#428dff';
+            });
+          }
+          if (autoplayV2) {
+            setTimeout(() => confirmBtn.click(), 1200);
+          }
+        });
+      }
+
+      function waitDataConfirm(resultRow) {
+        return new Promise(resolve => {
+          const confirmBtn = resultRow.querySelector('.data-confirm-btn');
+          const rewriteBtn = resultRow.querySelector('.data-rewrite-btn');
+          if (!confirmBtn) {
+            resolve();
+            return;
+          }
+          const finish = () => {
+            confirmBtn.textContent = '已确认';
+            confirmBtn.disabled = true;
+            confirmBtn.style.opacity = '.65';
+            if (rewriteBtn) {
+              rewriteBtn.disabled = true;
+              rewriteBtn.style.opacity = '.45';
+            }
+            resolve();
+          };
+          confirmBtn.addEventListener('click', finish, { once: true });
+          if (rewriteBtn) {
+            rewriteBtn.addEventListener('click', () => {
+              rewriteBtn.textContent = '已重新统计';
+              rewriteBtn.style.borderColor = '#cae0ff';
+              rewriteBtn.style.color = '#428dff';
+            });
+          }
+          if (autoplayV2) {
+            setTimeout(() => confirmBtn.click(), 1200);
+          }
+        });
+      }
+
+      async function playStageV2(scene, stageKey) {
+        const stage = stageConfigsV2[stageKey];
+        renderStageSummary(scene, stage);
+        scene.agentStream.innerHTML = '';
+        updateFlowStateV2(stage.flowIndex);
+
+        for (const message of stage.messages) {
+          const durationMs = message.think + message.text.length * TYPE_SPEED;
+          const thinking = await createThinkingMessage(scene.agentStream, durationMs);
+          await wait(message.think);
+          let extraNode = null;
+          if (message.action === 'answer') extraNode = buildAskAction('demand');
+          if (message.action === 'qualityConfirm') extraNode = buildAskAction('quality');
+          await revealTimeline(thinking, message.text, extraNode);
+
+          if (message.action === 'answer' || message.action === 'qualityConfirm') {
+            const answerMode = message.action === 'qualityConfirm' ? 'quality' : 'demand';
+            await wait(stage.autoOpenAnswerDelay || 0);
+            openAnswerModal(answerMode);
+            if (autoplayV2) {
+              setTimeout(() => {
+                if (waitingForAnswer && !hasModalAnswer(answerMode)) finalizeAnswers();
+              }, 1200);
+            }
+            while (waitingForAnswer || !hasModalAnswer(answerMode)) {
+              await wait(100);
+            }
+          }
+
+          if (message.taskCard) {
+            const row = document.createElement('div');
+            row.className = 'row agent-inline fade-enter';
+            row.innerHTML = '<div class=\"content-wrap\"></div>';
+            const card = buildTaskCardV2(message.taskCard);
+            row.querySelector('.content-wrap').appendChild(card);
+            scene.agentStream.appendChild(row);
+            await animateTaskCardV2(card, message.taskCard);
+          }
+        }
+
+        const resultRow = document.createElement('div');
+        resultRow.className = 'row agent-inline fade-enter';
+        resultRow.innerHTML = '<div class=\"content-wrap\"></div>';
+        resultRow.querySelector('.content-wrap').appendChild(buildResultCardV2(stage.buildResult({ answerData })));
+        scene.agentStream.appendChild(resultRow);
+        if (stage.awaitOutlineConfirm) {
+          await waitOutlineConfirm(resultRow);
+          const confirmText = '已收到您的确认，报告章节大纲梳理完成，进入下一阶段：数据分析。';
+          const thinking = await createThinkingMessage(scene.agentStream, 3000 + confirmText.length * TYPE_SPEED);
+          await wait(3000);
+          await revealTimeline(thinking, confirmText);
+        }
+        if (stage.awaitDataConfirm) {
+          await waitDataConfirm(resultRow);
+          const confirmText = '已收到您的确认，数据统计完成，进入最后一个阶段：最终报告撰写。';
+          const thinking = await createThinkingMessage(scene.agentStream, 3000 + confirmText.length * TYPE_SPEED);
+          await wait(3000);
+          await revealTimeline(thinking, confirmText);
+        }
+        if (Number.isInteger(stage.nextFlowIndex)) {
+          updateFlowStateV2(stage.nextFlowIndex);
+        }
+      }
+
+      async function startScenarioV2() {
+        const sendBtnNow = document.getElementById('send-btn');
+        const userText = composerInput.value.trim() || '分析工单，撰写报告';
+        const fileChip = document.createElement('div');
+        fileChip.className = 'file-chip';
+        fileChip.innerHTML = `<span class=\"file-chip-icon\">X</span><span class=\"file-chip-body\"><span class=\"file-chip-name\">2025年民生诉求工单.xlsx</span><span class=\"file-chip-meta\">xlsx ｜ 4.70MB</span></span>`;
+        const userRow = createBubbleRow({ side: 'user', bubbleClass: 'user', html: '<div class=\"typing-text\"></div>', extraNode: fileChip });
+        await typeText(userRow.body, userText, TYPE_SPEED);
+
+        composerInput.value = '';
+        composerInput.placeholder = '请输入您的需求，使用@提及智能体场景或智能体，使用/调用技能';
+        attachmentChip.style.display = 'none';
+        mentionChip.style.display = 'none';
+        composerWrap.classList.add('composer-disabled');
+        sendBtnNow.textContent = '停止';
+        sendBtnNow.style.background = 'linear-gradient(180deg, #ff7b7b 0%, #f05a5a 100%)';
+
+        const thinkingScene = createBubbleRow({
+          side: 'ai',
+          bubbleClass: 'thinking-bubble',
+          rowClass: 'scene-thinking',
+          html: '<div class=\"thinking-inline\"><span class=\"spinner\"></span><span>大模型思考中</span></div>'
+        });
+        await wait(THINK_AI);
+        thinkingScene.row.remove();
+        await wait(240);
+
+        const scene = buildSceneContainer();
+        await runStatuses(scene.runtimeBox);
+        scene.flowWrap.classList.remove('hidden');
+        scene.divider.classList.remove('hidden');
+        scene.recordWrap.classList.remove('hidden');
+        renderFlow(scene.flowTrack, 0);
+        await wait(560);
+        await playStageV2(scene, 'e1');
+        await wait(5000);
+        await playStageV2(scene, 'e2');
+        await wait(3000);
+        await playStageV2(scene, 'e3');
+        await wait(6000);
+        await playStageV2(scene, 'e4');
+        await wait(6000);
+        await playStageV2(scene, 'e5');
+        await wait(3000);
+        await playStageV2(scene, 'e6');
+      }
+
+      const sendBtnOld = document.getElementById('send-btn');
+      const sendBtnNew = sendBtnOld.cloneNode(true);
+      sendBtnOld.replaceWith(sendBtnNew);
+      sendBtnNew.addEventListener('click', () => {
+        if (startedV2) return;
+        startedV2 = true;
+        startScenarioV2();
+      });
+
+      if (autoplayV2) {
+        setTimeout(() => {
+          if (!startedV2) {
+            startedV2 = true;
+            startScenarioV2();
+          }
+        }, 300);
+      }
+    })();
+  </script>
+    <script>
+    (() => {
+      function prettyTitle(icon, text, c1, c2) {
+        return `<span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:22px;height:22px;border-radius:7px;background:linear-gradient(180deg,${c1} 0%,${c2} 100%);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">${icon}</span><span>${text}</span></span>`;
+      }
+
+      function buildLineChart() {
+        const data = [['1月',2.8],['2月',3.0],['3月',3.4],['4月',3.8],['5月',4.0],['6月',4.4],['7月',4.9],['8月',4.6],['9月',4.2],['10月',3.9],['11月',3.5],['12月',3.1]];
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 560 220');
+        svg.style.width = '100%';
+        svg.style.height = '188px';
+        [0,1,2,3,4,5].forEach(v => {
+          const y = 22 + (5 - v) * 30;
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1','42'); line.setAttribute('x2','530'); line.setAttribute('y1',y); line.setAttribute('y2',y); line.setAttribute('stroke', v===0 ? '#d4e0ef' : '#ebf1f8'); line.setAttribute('stroke-width','1'); svg.appendChild(line);
+          const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text'); txt.setAttribute('x','8'); txt.setAttribute('y',String(y+4)); txt.setAttribute('fill','#91a4bd'); txt.setAttribute('font-size','11'); txt.textContent = `${v}万宗`; svg.appendChild(txt);
+        });
+        const xAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text'); xAxisLabel.setAttribute('x','500'); xAxisLabel.setAttribute('y','212'); xAxisLabel.setAttribute('fill','#91a4bd'); xAxisLabel.setAttribute('font-size','11'); xAxisLabel.textContent='月份'; svg.appendChild(xAxisLabel);
+        const yAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text'); yAxisLabel.setAttribute('x','6'); yAxisLabel.setAttribute('y','14'); yAxisLabel.setAttribute('fill','#91a4bd'); yAxisLabel.setAttribute('font-size','11'); yAxisLabel.textContent='工单量'; svg.appendChild(yAxisLabel);
+        let points='';
+        data.forEach(([month,value],idx)=>{ const x=62+idx*40; const y=22+(5-value)*30; points += `${x},${y} `; const c=document.createElementNS('http://www.w3.org/2000/svg','circle'); c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r','4.5'); c.setAttribute('fill','#ff8f4d'); svg.appendChild(c); const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',x-12); val.setAttribute('y',y-10); val.setAttribute('fill','#607a9b'); val.setAttribute('font-size','10'); val.textContent=`${value}万`; svg.appendChild(val); const m=document.createElementNS('http://www.w3.org/2000/svg','text'); m.setAttribute('x',x-9); m.setAttribute('y','196'); m.setAttribute('fill','#91a4bd'); m.setAttribute('font-size','10'); m.textContent=month; svg.appendChild(m); });
+        const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polyline'); poly.setAttribute('points', points.trim()); poly.setAttribute('fill','none'); poly.setAttribute('stroke','#4f8eff'); poly.setAttribute('stroke-width','3'); poly.setAttribute('stroke-linejoin','round'); poly.setAttribute('stroke-linecap','round'); svg.appendChild(poly);
+        return svg;
+      }
+
+      function buildFinalStatsBlock() {
+        const wrap = document.createElement('div'); wrap.style.display='grid'; wrap.style.gap='14px';
+        const metrics=[['目标工单量','20,845','#6aa8ff','#3478ff'],['成功打标量','16,947','#66d0b0','#1fb989'],['标签覆盖率','81.3%','#ffb067','#ff7e45']];
+        const labels=[['网约车司机',3560,'#5e9cff','#3478ff'],['快递员',2894,'#66d0b0','#1fb989'],['外卖骑手',2488,'#ffb067','#ff7e45'],['货车车主',1862,'#8d87ff','#6658ff'],['家政阿姨',1224,'#ff8fb2','#ff5f8d']];
+        const hotspots=[['网约出租车司机群体反映平台扣罚车费或奖励、封禁账号等规则不合理',76000,'#ffb067','#ff7e45'],['网约车司机群体反映平台派单限制多、订单单价低、平台抽成高',40000,'#6aa8ff','#3478ff'],['网约车司机群体希望平台及相关部门加强司机群体权益维护',45000,'#66d0b0','#1fb989'],['货车司机群体反映货运平台收费、处罚机制及平台违规行为',20000,'#8d87ff','#6658ff']];
+        const metricGrid=document.createElement('div'); metricGrid.style.cssText='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;'; metrics.forEach(([label,value,c1,c2])=>{ const card=document.createElement('div'); card.style.cssText=`border:1px solid #e3ebf5;border-radius:12px;background:linear-gradient(180deg,${c1}14 0%,#ffffff 100%);padding:12px 14px;`; card.innerHTML=`<div style="font-size:12px;color:#8ea2bd;">${label}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#24395a;margin-top:6px;">${value}</div>`; metricGrid.appendChild(card);}); wrap.appendChild(metricGrid);
+        const middle=document.createElement('div'); middle.style.cssText='display:grid;grid-template-columns:1.15fr 1fr;gap:14px;';
+        const trendCard=document.createElement('div'); trendCard.style.cssText='border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;'; trendCard.innerHTML=`<div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${prettyTitle('折','打标量趋势','#6aa8ff','#3478ff')}</div>`; trendCard.appendChild(buildLineChart()); middle.appendChild(trendCard);
+        const labelCard=document.createElement('div'); labelCard.style.cssText='border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;'; labelCard.innerHTML=`<div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${prettyTitle('签','标签分布情况','#66d0b0','#1fb989')}</div>`; const labelRows=document.createElement('div'); labelRows.style.cssText='display:grid;gap:10px;'; const maxLabel=Math.max(...labels.map(i=>i[1])); labels.forEach(([name,value,c1,c2])=>{ const row=document.createElement('div'); row.style.cssText='display:grid;grid-template-columns:88px 1fr 52px;gap:10px;align-items:center;'; row.innerHTML=`<span style="font-size:12px;color:#5d7394;">${name}</span><span style="height:8px;border-radius:999px;background:#edf3fb;overflow:hidden;"><span style="display:block;height:100%;width:${(value/maxLabel)*100}%;background:linear-gradient(90deg,${c1} 0%,${c2} 100%);border-radius:inherit;"></span></span><span style="font-size:12px;color:#7388a6;text-align:right;">${value}</span>`; labelRows.appendChild(row);}); labelCard.appendChild(labelRows); middle.appendChild(labelCard); wrap.appendChild(middle);
+        const hotspotCard=document.createElement('div'); hotspotCard.style.cssText='border:1px solid #e3ebf5;border-radius:12px;padding:12px 14px;background:#fff;'; hotspotCard.innerHTML=`<div style="font-size:13px;font-weight:700;color:#304866;margin-bottom:10px;">${prettyTitle('热','热点事件分布','#ffb067','#ff7e45')}</div>`; const hotspotRows=document.createElement('div'); hotspotRows.style.cssText='display:grid;gap:16px;'; const maxHotspot=Math.max(...hotspots.map(i=>i[1])); hotspots.forEach(([name,value,c1,c2])=>{ const row=document.createElement('div'); row.style.cssText='display:grid;gap:7px;'; row.innerHTML=`<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;"><span style="font-size:12px;color:#5d7394;line-height:1.7;">${name}</span><span style="font-size:12px;color:#7388a6;white-space:nowrap;">${(value/10000).toFixed(1)}万宗</span></div><span style="height:10px;border-radius:999px;background:#fff1e8;overflow:hidden;"><span style="display:block;height:100%;width:${(value/maxHotspot)*100}%;background:linear-gradient(90deg,${c1} 0%,${c2} 100%);border-radius:inherit;"></span></span>`; hotspotRows.appendChild(row);}); hotspotCard.appendChild(hotspotRows); wrap.appendChild(hotspotCard);
+        return wrap;
+      }
+
+      function finalStage2Overrides() {
+        document.querySelectorAll('.stage-summary').forEach(summary => {
+          if (!summary.textContent.includes('数据标注')) return;
+          const card = summary.closest('.agent-record-wrap');
+          if (!card) return;
+          const rows = card.querySelectorAll('.timeline-line .inline-text');
+          if (rows[1]) rows[1].innerHTML = '已读取上一阶段创建的任务，使用<span style="display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;border:1px solid #cde0ff;background:#f4f8ff;color:#3478ff;font-size:12px;font-weight:700;vertical-align:middle;margin:0 4px;">提示词打标技能</span>进行打标。';
+          if (rows[3]) rows[3].textContent = '已创建系统任务：20260422附件名称示例-新就业群体打标任务。';
+          card.querySelectorAll('.task-card div[style*="font-size:12px;color:#8ea2bd"]').forEach(node => node.remove());
+          const groups = card.querySelectorAll('.result-group');
+          groups.forEach((group, index) => {
+            const title = group.querySelector('.result-group-title');
+            if (!title) return;
+            if (index === 0) title.innerHTML = prettyTitle('附', '打标附件导出', '#5bc7a4', '#1fb989');
+            if (index === 1) { title.innerHTML = prettyTitle('统', '打标情况统计', '#ffad66', '#ff7e45'); Array.from(group.children).forEach((child, idx) => { if (idx > 0) child.remove(); }); group.appendChild(buildFinalStatsBlock()); }
+          });
+        });
+      }
+
+      const finalObs = new MutationObserver(() => finalStage2Overrides());
+      finalObs.observe(document.body, { childList: true, subtree: true });
+      finalStage2Overrides();
+      setInterval(finalStage2Overrides, 400);
+    })();
+  </script>
+</body>
+</html>
